@@ -234,20 +234,30 @@ function AppContent() {
         />
       ) : currentPage === PAGE_TYPES.INDONESIA_PROFILE ? (
         // 🔥 根据用户选择的国旗来决定显示哪个结果页（phoneRegion 优先，detectPhoneRegion 作为回退）
-        (phoneRegion || detectPhoneRegion(searchQuery)) === 'indonesia' ? (
-          <IndonesiaProfileResult_Simple 
-            data={searchResults}
-            query={searchQuery}
-            onBack={handleBack}
-          />
-        ) : (
-          <USProfileResult 
-            data={searchResults}
-            query={searchQuery}
-            onBack={handleBack}
-            platformResults={searchResults}
-          />
-        )
+        (() => {
+          const region = phoneRegion || detectPhoneRegion(searchQuery);
+          console.log(`🎯 [App] INDONESIA_PROFILE 路由决策: phoneRegion=${phoneRegion}, detectPhoneRegion=${detectPhoneRegion(searchQuery)}, 最终region=${region}`);
+          if (region === 'indonesia') {
+            console.log('🇮🇩 [App] 渲染 IndonesiaProfileResult_Simple 组件');
+            return (
+              <IndonesiaProfileResult_Simple 
+                data={searchResults}
+                query={searchQuery}
+                onBack={handleBack}
+              />
+            );
+          } else {
+            console.log('🇺🇸 [App] 渲染 USProfileResult 组件');
+            return (
+              <USProfileResult 
+                data={searchResults}
+                query={searchQuery}
+                onBack={handleBack}
+                platformResults={searchResults}
+              />
+            );
+          }
+        })()
       ) : currentPage === PAGE_TYPES.LOADING && isLoading ? (
         <div className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="text-center space-y-6">
