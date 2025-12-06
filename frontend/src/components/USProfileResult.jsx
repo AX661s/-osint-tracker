@@ -2022,6 +2022,33 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                     </div>
                   )}
                   
+                  {/* 🇺🇸 美国特有: 身份分析详情 (8888 API) */}
+                  {(finalBasicInfo?.identity_cluster_count || finalBasicInfo?.identity_total_records) && (
+                    <div className="pt-2">
+                      <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">身份分析</div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {finalBasicInfo?.identity_cluster_count && (
+                          <div className="bg-muted/20 border border-border rounded-lg p-2 text-center">
+                            <div className="text-[10px] text-muted-foreground uppercase">聚类数</div>
+                            <div className="text-lg font-bold text-primary">{finalBasicInfo.identity_cluster_count}</div>
+                          </div>
+                        )}
+                        {finalBasicInfo?.identity_total_records && (
+                          <div className="bg-muted/20 border border-border rounded-lg p-2 text-center">
+                            <div className="text-[10px] text-muted-foreground uppercase">分析记录</div>
+                            <div className="text-lg font-bold text-primary">{finalBasicInfo.identity_total_records}</div>
+                          </div>
+                        )}
+                        {finalBasicInfo?.identity_main_cluster_size && (
+                          <div className="bg-muted/20 border border-border rounded-lg p-2 text-center">
+                            <div className="text-[10px] text-muted-foreground uppercase">主聚类</div>
+                            <div className="text-lg font-bold text-primary">{finalBasicInfo.identity_main_cluster_size}</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
                   {/* Debug NIK display */}
                   {(() => {
                     console.log('🆔 [Render] Checking NIK display conditions:');
@@ -2425,6 +2452,18 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                           <div className="flex items-start gap-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider min-w-[60px]">行业:</span>
                             <span className="text-sm text-foreground">{translateToChineseIfNeeded(job.industry)}</span>
+                          </div>
+                        )}
+                        {job.level && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider min-w-[60px]">级别:</span>
+                            <span className="text-sm text-foreground">{translateToChineseIfNeeded(job.level)}</span>
+                          </div>
+                        )}
+                        {job.department && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider min-w-[60px]">部门:</span>
+                            <span className="text-sm text-foreground">{translateToChineseIfNeeded(job.department)}</span>
                           </div>
                         )}
                         {job.location && (
