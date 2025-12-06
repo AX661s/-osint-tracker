@@ -248,6 +248,11 @@ def format_us_profile_result(raw_result: Dict[str, Any], phone: str) -> Dict[str
                 "nationality": "United States",
                 "country_code": "US",
                 "confidence_score": identity.get("confidence_score", 0),
+                "identity_warning": identity.get("analysis", {}).get("warning"),
+                "identity_status": identity.get("analysis", {}).get("status"),
+                "identity_cluster_count": identity.get("analysis", {}).get("cluster_count"),
+                "identity_total_records": identity.get("analysis", {}).get("total_records_analyzed"),
+                "identity_main_cluster_size": identity.get("analysis", {}).get("main_cluster_size"),
             },
             
             # 🔥 contact_info - 印尼页面期望的格式 (不是 contact)
@@ -265,6 +270,8 @@ def format_us_profile_result(raw_result: Dict[str, Any], phone: str) -> Dict[str
                 "company": current_career.get("current_company", ""),
                 "position": current_career.get("current_position", ""),
                 "industry": current_career.get("industry", ""),
+                "level": current_career.get("level", ""),
+                "department": current_career.get("department", ""),
                 "jobs": jobs,  # 印尼页面期望的 jobs 数组
             },
             

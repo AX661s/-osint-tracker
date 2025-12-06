@@ -36,6 +36,8 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(PAGE_TYPES.SEARCH);
+  // 🔥 新增：根据用户选择的国旗来决定显示哪个结果页
+  const [phoneRegion, setPhoneRegion] = useState(null);
 
   // 从 localStorage 恢复会话
   useEffect(() => {
@@ -105,6 +107,20 @@ function AppContent() {
     setSearchQuery(query);
     setIsLoading(true);
     setCurrentPage(PAGE_TYPES.LOADING);
+    
+    // 🔥 根据用户选择的国旗设置 phoneRegion（用于决定显示哪个结果页）
+    if (filters?.dialCode === '62') {
+      setPhoneRegion('indonesia');
+      console.log('🇮🇩 [App] 用户选择印尼国旗 (+62)，将显示印尼结果页');
+    } else if (filters?.dialCode === '1') {
+      setPhoneRegion('us');
+      console.log('🇺🇸 [App] 用户选择美国国旗 (+1)，将显示美国结果页');
+    } else if (filters?.dialCode) {
+      setPhoneRegion('other');
+      console.log(`🌍 [App] 用户选择其他国家 (+${filters.dialCode})`);
+    } else {
+      setPhoneRegion(null);
+    }
     
     try {
       console.log(`🔍 [App] Starting search for: ${query}`);
@@ -217,21 +233,31 @@ function AppContent() {
           onBack={handleBack}
         />
       ) : currentPage === PAGE_TYPES.INDONESIA_PROFILE ? (
-        // 🎯 智能路由：根据号码类型选择对应组件
-        detectPhoneRegion(searchQuery) === 'indonesia' ? (
-          <IndonesiaProfileResult_Simple 
-            data={searchResults}
-            query={searchQuery}
-            onBack={handleBack}
-          />
-        ) : (
-          <USProfileResult 
-            data={searchResults}
-            query={searchQuery}
-            onBack={handleBack}
-            platformResults={searchResults}
-          />
-        )
+        // 🔥 根据用户选择的国旗来决定显示哪个结果页（phoneRegion 优先，detectPhoneRegion 作为回退）
+        (() => {
+          const region = phoneRegion || detectPhoneRegion(searchQuery);
+          console.log(`🎯 [App] INDONESIA_PROFILE 路由决策: phoneRegion=${phoneRegion}, detectPhoneRegion=${detectPhoneRegion(searchQuery)}, 最终region=${region}`);
+          if (region === 'indonesia') {
+            console.log('🇮🇩 [App] 渲染 IndonesiaProfileResult_Simple 组件');
+            return (
+              <IndonesiaProfileResult_Simple 
+                data={searchResults}
+                query={searchQuery}
+                onBack={handleBack}
+              />
+            );
+          } else {
+            console.log('🇺🇸 [App] 渲染 USProfileResult 组件');
+            return (
+              <USProfileResult 
+                data={searchResults}
+                query={searchQuery}
+                onBack={handleBack}
+                platformResults={searchResults}
+              />
+            );
+          }
+        })()
       ) : currentPage === PAGE_TYPES.LOADING && isLoading ? (
         <div className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="text-center space-y-6">

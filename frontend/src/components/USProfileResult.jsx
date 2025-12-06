@@ -1444,15 +1444,20 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
     return uniqueAccounts;
   }, [data_breaches?.details, primaryEmail]);
 
-  // Use Google avatar if available, otherwise fallback to Truecaller (v2025-11-27 FIXED)
+  // Use Google avatar if available, otherwise fallback to Truecaller or 8888 API avatar_urls (v2025-11-27 FIXED)
   // Proxy Google avatar through backend to avoid CORS issues
   const finalAvatarUrl = React.useMemo(() => {
     if (googleAvatarUrl) {
-      // Use backend proxy for Google avatars
       return `${API_BASE}/avatar?url=${encodeURIComponent(googleAvatarUrl)}`;
     }
-    return avatarUrl;
-  }, [googleAvatarUrl, avatarUrl]);
+    if (avatarUrl) {
+      return avatarUrl;
+    }
+    if (accounts?.avatar_urls && Array.isArray(accounts.avatar_urls) && accounts.avatar_urls.length > 0) {
+      return `${API_BASE}/avatar?url=${encodeURIComponent(accounts.avatar_urls[0])}`;
+    }
+    return null;
+  }, [googleAvatarUrl, avatarUrl, accounts?.avatar_urls]);
 
   // Debug avatar URL
   console.log('🖼️ Avatar URL (original):', avatarUrl);
@@ -1627,7 +1632,69 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
       }
     }
     
-    // Source 2: extractedSocialMedia (from data_breaches)
+    // Source 2: 8888 API accounts format (facebook, linkedin, twitter, instagram, tiktok arrays)
+    if (accounts) {
+      try {
+        // Facebook accounts
+        if (Array.isArray(accounts.facebook) && accounts.facebook.length > 0) {
+          accounts.facebook.forEach(id => {
+            if (id) allAccounts.push({ platform: 'Facebook', username: id, id: id });
+          });
+        }
+        // LinkedIn accounts
+        if (Array.isArray(accounts.linkedin) && accounts.linkedin.length > 0) {
+          accounts.linkedin.forEach(id => {
+            if (id) allAccounts.push({ platform: 'LinkedIn', username: id, id: id });
+          });
+        }
+        // Twitter accounts
+        if (Array.isArray(accounts.twitter) && accounts.twitter.length > 0) {
+          accounts.twitter.forEach(handle => {
+            if (handle) allAccounts.push({ platform: 'Twitter', username: handle, id: handle });
+          });
+        }
+        // Instagram accounts
+        if (Array.isArray(accounts.instagram) && accounts.instagram.length > 0) {
+          accounts.instagram.forEach(handle => {
+            if (handle) allAccounts.push({ platform: 'Instagram', username: handle, id: handle });
+          });
+        }
+        // TikTok accounts
+        if (Array.isArray(accounts.tiktok) && accounts.tiktok.length > 0) {
+          accounts.tiktok.forEach(handle => {
+            if (handle) allAccounts.push({ platform: 'TikTok', username: handle, id: handle });
+          });
+        }
+        // Nicknames
+        if (Array.isArray(accounts.nicknames) && accounts.nicknames.length > 0) {
+          accounts.nicknames.forEach(nickname => {
+            if (nickname) allAccounts.push({ platform: 'Nickname', username: nickname, nickname: nickname });
+          });
+        }
+        // Profile URLs
+        if (Array.isArray(accounts.profiles) && accounts.profiles.length > 0) {
+          accounts.profiles.forEach(url => {
+            if (url) {
+              const platform = url.includes('linkedin') ? 'LinkedIn' : 
+                              url.includes('facebook') ? 'Facebook' :
+                              url.includes('twitter') ? 'Twitter' :
+                              url.includes('instagram') ? 'Instagram' : 'Profile';
+              allAccounts.push({ platform: platform, username: url, url: url });
+            }
+          });
+        }
+        // Websites
+        if (Array.isArray(accounts.websites) && accounts.websites.length > 0) {
+          accounts.websites.forEach(url => {
+            if (url) allAccounts.push({ platform: 'Website', username: url, url: url });
+          });
+        }
+      } catch (e) {
+        console.error('Error processing 8888 API accounts:', e);
+      }
+    }
+    
+    // Source 3: extractedSocialMedia (from data_breaches)
     if (Array.isArray(extractedSocialMedia) && extractedSocialMedia.length > 0) {
       allAccounts = [...allAccounts, ...extractedSocialMedia];
     }
@@ -1694,7 +1761,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
       seen.add(key);
       return true;
     });
-  }, [accounts?.details, extractedSocialMedia]);
+  }, [accounts, extractedSocialMedia]);
 
   // Sort emails by frequency of usage in accounts and common providers
   const sortedEmails = React.useMemo(() => {
@@ -1932,6 +1999,52 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                           {finalBasicInfo.ssn}
                         </div>
                         <div className="text-[10px] text-red-400 mt-1">⚠️ 敏感信息</div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 🇺🇸 美国特有: 身份警告 (8888 API) */}
+                  {finalBasicInfo?.identity_warning && (
+                    <div className="pt-2">
+                      <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-md">
+                        <div className="text-xs font-semibold text-amber-600 uppercase mb-1 flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" /> 身份分析警告
+                        </div>
+                        <div className="text-sm text-amber-700">
+                          {finalBasicInfo.identity_warning}
+                        </div>
+                        {finalBasicInfo?.identity_status && (
+                          <div className="text-[10px] text-amber-500 mt-1">
+                            状态: {finalBasicInfo.identity_status}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* 🇺🇸 美国特有: 身份分析详情 (8888 API) */}
+                  {(finalBasicInfo?.identity_cluster_count || finalBasicInfo?.identity_total_records) && (
+                    <div className="pt-2">
+                      <div className="text-xs font-semibold text-muted-foreground uppercase mb-2">身份分析</div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {finalBasicInfo?.identity_cluster_count && (
+                          <div className="bg-muted/20 border border-border rounded-lg p-2 text-center">
+                            <div className="text-[10px] text-muted-foreground uppercase">聚类数</div>
+                            <div className="text-lg font-bold text-primary">{finalBasicInfo.identity_cluster_count}</div>
+                          </div>
+                        )}
+                        {finalBasicInfo?.identity_total_records && (
+                          <div className="bg-muted/20 border border-border rounded-lg p-2 text-center">
+                            <div className="text-[10px] text-muted-foreground uppercase">分析记录</div>
+                            <div className="text-lg font-bold text-primary">{finalBasicInfo.identity_total_records}</div>
+                          </div>
+                        )}
+                        {finalBasicInfo?.identity_main_cluster_size && (
+                          <div className="bg-muted/20 border border-border rounded-lg p-2 text-center">
+                            <div className="text-[10px] text-muted-foreground uppercase">主聚类</div>
+                            <div className="text-lg font-bold text-primary">{finalBasicInfo.identity_main_cluster_size}</div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -2341,6 +2454,18 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                             <span className="text-sm text-foreground">{translateToChineseIfNeeded(job.industry)}</span>
                           </div>
                         )}
+                        {job.level && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider min-w-[60px]">级别:</span>
+                            <span className="text-sm text-foreground">{translateToChineseIfNeeded(job.level)}</span>
+                          </div>
+                        )}
+                        {job.department && (
+                          <div className="flex items-start gap-2">
+                            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider min-w-[60px]">部门:</span>
+                            <span className="text-sm text-foreground">{translateToChineseIfNeeded(job.department)}</span>
+                          </div>
+                        )}
                         {job.location && (
                           <div className="flex items-start gap-2">
                             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider min-w-[60px]">位置:</span>
@@ -2390,74 +2515,122 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                 )}
               </section>
 
-              {/* 🇺🇸 美国特有: 财务信息 */}
-              {(profile.financial_info?.income || profile.financial_info?.net_worth || profile.financial_info?.credit_score) && (
+              {/* 🇺🇸 美国特有: 财务信息 (8888 API) */}
+              {(profile.financial_info?.income || profile.financial_info?.net_worth || profile.financial_info?.credit_score || profile.financial_info?.credit_scores?.length > 0 || profile.financial_info?.income_levels?.length > 0 || profile.financial_info?.net_worth_all?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     <DollarSign className="w-5 h-5 text-green-500" /> 财务信息
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {profile.financial_info?.income && (
+                    {(profile.financial_info?.income || profile.financial_info?.income_levels?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">收入等级</div>
-                        <div className="text-xl font-bold text-green-500">{profile.financial_info.income}</div>
+                        <div className="text-xl font-bold text-green-500">
+                          {profile.financial_info?.income_levels?.length > 0 
+                            ? profile.financial_info.income_levels.join(', ')
+                            : profile.financial_info.income}
+                        </div>
                       </div>
                     )}
-                    {profile.financial_info?.net_worth && (
+                    {(profile.financial_info?.net_worth || profile.financial_info?.net_worth_all?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">净资产</div>
-                        <div className="text-xl font-bold text-blue-500">{profile.financial_info.net_worth}</div>
+                        <div className="text-xl font-bold text-blue-500">
+                          {profile.financial_info?.net_worth_all?.length > 0 
+                            ? profile.financial_info.net_worth_all.join(', ')
+                            : profile.financial_info.net_worth}
+                        </div>
                       </div>
                     )}
-                    {profile.financial_info?.credit_score && (
+                    {(profile.financial_info?.credit_score || profile.financial_info?.credit_scores?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">信用评分</div>
-                        <div className="text-xl font-bold text-purple-500">{profile.financial_info.credit_score}</div>
+                        <div className="text-xl font-bold text-purple-500">
+                          {profile.financial_info?.credit_scores?.length > 0 
+                            ? profile.financial_info.credit_scores.join(', ')
+                            : profile.financial_info.credit_score}
+                        </div>
                       </div>
                     )}
                   </div>
                 </section>
               )}
 
-              {/* 🇺🇸 美国特有: 房产信息 */}
-              {profile.housing_info?.properties && profile.housing_info.properties.length > 0 && (
+              {/* 🇺🇸 美国特有: 房产信息 (8888 API) */}
+              {(profile.housing_info?.properties?.length > 0 || profile.housing_info?.home_values?.length > 0 || profile.housing_info?.property_types?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     <Home className="w-5 h-5 text-amber-500" /> 房产信息
                   </h2>
-                  <div className="space-y-2">
-                    {profile.housing_info.properties.map((prop, i) => (
-                      <div key={i} className="bg-muted/20 border border-border rounded-lg p-3 text-sm text-foreground">
-                        {prop}
+                  <div className="space-y-4">
+                    {profile.housing_info?.home_values?.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {profile.housing_info.home_values.map((value, i) => (
+                          <div key={i} className="bg-muted/20 border border-border rounded-lg p-4 text-center">
+                            <div className="text-xs text-muted-foreground uppercase mb-1">房产价值</div>
+                            <div className="text-xl font-bold text-amber-500">{value}</div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+                    {profile.housing_info?.property_types?.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {profile.housing_info.property_types.map((type, i) => (
+                          <div key={i} className="bg-muted/20 border border-border rounded-lg p-4 text-center">
+                            <div className="text-xs text-muted-foreground uppercase mb-1">房产类型</div>
+                            <div className="text-lg font-bold text-amber-500">{type}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {profile.housing_info?.properties?.length > 0 && (
+                      <div className="space-y-2">
+                        {profile.housing_info.properties.map((prop, i) => (
+                          <div key={i} className="bg-muted/20 border border-border rounded-lg p-3 text-sm text-foreground">
+                            {prop}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </section>
               )}
 
               {/* 🇺🇸 美国特有: 家庭信息 */}
-              {(profile.family_info?.children_count || profile.family_info?.marital_status || profile.family_info?.household_size) && (
+              {(profile.family_info?.children_count || profile.family_info?.number_of_children?.length > 0 || profile.family_info?.marital_status || profile.family_info?.marital_status_all?.length > 0 || profile.family_info?.household_size || profile.family_info?.household_size_all?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     <Users className="w-5 h-5 text-pink-500" /> 家庭信息
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {profile.family_info?.children_count && (
+                    {(profile.family_info?.children_count || profile.family_info?.number_of_children?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">子女数量</div>
-                        <div className="text-xl font-bold text-pink-500">{profile.family_info.children_count}</div>
+                        <div className="text-xl font-bold text-pink-500">
+                          {profile.family_info?.number_of_children?.length > 0 
+                            ? profile.family_info.number_of_children.join(', ')
+                            : profile.family_info.children_count}
+                        </div>
                       </div>
                     )}
-                    {profile.family_info?.marital_status && (
+                    {(profile.family_info?.marital_status || profile.family_info?.marital_status_all?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">婚姻状态</div>
-                        <div className="text-xl font-bold text-pink-500">{profile.family_info.marital_status}</div>
+                        <div className="text-xl font-bold text-pink-500">
+                          {profile.family_info?.marital_status_all?.length > 0
+                            ? profile.family_info.marital_status_all.join(', ')
+                            : profile.family_info.marital_status}
+                        </div>
                       </div>
                     )}
-                    {profile.family_info?.household_size && (
+                    {(profile.family_info?.household_size || profile.family_info?.household_size_all?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">家庭规模</div>
-                        <div className="text-xl font-bold text-pink-500">{profile.family_info.household_size} 人</div>
+                        <div className="text-xl font-bold text-pink-500">
+                          {profile.family_info?.household_size_all?.length > 0
+                            ? profile.family_info.household_size_all.join(', ')
+                            : profile.family_info.household_size} 人
+                        </div>
                       </div>
                     )}
                   </div>
@@ -2596,7 +2769,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
               )}
 
               {/* 🇺🇸 物理特征 */}
-              {(profile.physical_info?.height?.length > 0 || profile.physical_info?.weight?.length > 0 || profile.physical_info?.hair_color?.length > 0 || profile.physical_info?.eye_color?.length > 0) && (
+              {(profile.physical_info?.height?.length > 0 || profile.physical_info?.weight?.length > 0 || profile.physical_info?.hair_color?.length > 0 || profile.physical_info?.eye_color?.length > 0 || profile.physical_info?.ethnicity_all?.length > 0 || profile.physical_info?.race_all?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     👤 物理特征
@@ -2624,6 +2797,18 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                       <div className="bg-muted/20 border border-border rounded-lg p-3 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">眼色</div>
                         <div className="font-bold text-foreground">{profile.physical_info.eye_color[0]}</div>
+                      </div>
+                    )}
+                    {profile.physical_info?.ethnicity_all?.length > 0 && (
+                      <div className="bg-muted/20 border border-border rounded-lg p-3 text-center">
+                        <div className="text-xs text-muted-foreground uppercase mb-1">族裔</div>
+                        <div className="font-bold text-foreground">{profile.physical_info.ethnicity_all.join(', ')}</div>
+                      </div>
+                    )}
+                    {profile.physical_info?.race_all?.length > 0 && (
+                      <div className="bg-muted/20 border border-border rounded-lg p-3 text-center">
+                        <div className="text-xs text-muted-foreground uppercase mb-1">种族</div>
+                        <div className="font-bold text-foreground">{profile.physical_info.race_all.join(', ')}</div>
                       </div>
                     )}
                   </div>
@@ -2769,6 +2954,37 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                   <div className="text-sm text-muted-foreground italic">未找到数字足迹记录。</div>
                 )}
               </section>
+
+              {/* 🇺🇸 数据来源 (8888 API) */}
+              {profile.data_breaches?.databases && profile.data_breaches.databases.length > 0 && (
+                <section>
+                  <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
+                    <Database className="w-5 h-5 text-cyan-500" /> 数据来源
+                  </h2>
+                  <div className="bg-muted/20 border border-border rounded-lg p-4">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-cyan-500">{profile.data_breaches.total_databases || profile.data_breaches.databases.length}</div>
+                        <div className="text-xs text-muted-foreground">数据库</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-cyan-500">{profile.data_breaches.total_records || 0}</div>
+                        <div className="text-xs text-muted-foreground">记录数</div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {profile.data_breaches.databases.map((db, i) => (
+                        <div key={i} className="flex items-center justify-between bg-card border border-border rounded px-3 py-2">
+                          <span className="text-sm font-medium text-foreground">{db.name || db}</span>
+                          {db.record_count && (
+                            <span className="text-xs text-muted-foreground">{db.record_count} 条</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
 
               {/* Google Maps Location Section - Map View Center */}
               {(() => {

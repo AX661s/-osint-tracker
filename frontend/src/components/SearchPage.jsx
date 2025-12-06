@@ -116,8 +116,8 @@ export const SearchPage = ({ onSearch, isAdmin, onAdminClick, onComprehensiveSea
       
       console.log(`🇮🇩 [Frontend] 印尼号码格式化为: ${indonesiaPhone}`);
       
-      // 直接调用印尼查询（通过特殊的 searchType）
-      onSearch(indonesiaPhone, { searchType: 'indonesia_phone', platform });
+      // 直接调用印尼查询（通过特殊的 searchType），传递 dialCode 用于路由
+      onSearch(indonesiaPhone, { searchType: 'indonesia_phone', platform, dialCode });
       return;
     }
     
@@ -136,7 +136,8 @@ export const SearchPage = ({ onSearch, isAdmin, onAdminClick, onComprehensiveSea
           finalQuery = trimmedQuery.replace(/\s+/g, '');
         }
       }
-      onSearch(finalQuery, { searchType, platform });
+      // 🔥 传递 dialCode 用于前端路由判断（根据用户选择的国旗决定显示哪个结果页）
+      onSearch(finalQuery, { searchType, platform, dialCode });
       setIsSearching(false);
     }, 800);
   };
