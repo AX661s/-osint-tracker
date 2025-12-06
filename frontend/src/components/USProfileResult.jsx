@@ -2503,28 +2503,40 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
               )}
 
               {/* 🇺🇸 美国特有: 家庭信息 */}
-              {(profile.family_info?.children_count || profile.family_info?.marital_status || profile.family_info?.household_size) && (
+              {(profile.family_info?.children_count || profile.family_info?.number_of_children?.length > 0 || profile.family_info?.marital_status || profile.family_info?.marital_status_all?.length > 0 || profile.family_info?.household_size || profile.family_info?.household_size_all?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     <Users className="w-5 h-5 text-pink-500" /> 家庭信息
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {profile.family_info?.children_count && (
+                    {(profile.family_info?.children_count || profile.family_info?.number_of_children?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">子女数量</div>
-                        <div className="text-xl font-bold text-pink-500">{profile.family_info.children_count}</div>
+                        <div className="text-xl font-bold text-pink-500">
+                          {profile.family_info?.number_of_children?.length > 0 
+                            ? profile.family_info.number_of_children.join(', ')
+                            : profile.family_info.children_count}
+                        </div>
                       </div>
                     )}
-                    {profile.family_info?.marital_status && (
+                    {(profile.family_info?.marital_status || profile.family_info?.marital_status_all?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">婚姻状态</div>
-                        <div className="text-xl font-bold text-pink-500">{profile.family_info.marital_status}</div>
+                        <div className="text-xl font-bold text-pink-500">
+                          {profile.family_info?.marital_status_all?.length > 0
+                            ? profile.family_info.marital_status_all.join(', ')
+                            : profile.family_info.marital_status}
+                        </div>
                       </div>
                     )}
-                    {profile.family_info?.household_size && (
+                    {(profile.family_info?.household_size || profile.family_info?.household_size_all?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">家庭规模</div>
-                        <div className="text-xl font-bold text-pink-500">{profile.family_info.household_size} 人</div>
+                        <div className="text-xl font-bold text-pink-500">
+                          {profile.family_info?.household_size_all?.length > 0
+                            ? profile.family_info.household_size_all.join(', ')
+                            : profile.family_info.household_size} 人
+                        </div>
                       </div>
                     )}
                   </div>
@@ -2663,7 +2675,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
               )}
 
               {/* 🇺🇸 物理特征 */}
-              {(profile.physical_info?.height?.length > 0 || profile.physical_info?.weight?.length > 0 || profile.physical_info?.hair_color?.length > 0 || profile.physical_info?.eye_color?.length > 0) && (
+              {(profile.physical_info?.height?.length > 0 || profile.physical_info?.weight?.length > 0 || profile.physical_info?.hair_color?.length > 0 || profile.physical_info?.eye_color?.length > 0 || profile.physical_info?.ethnicity_all?.length > 0 || profile.physical_info?.race_all?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     👤 物理特征
@@ -2691,6 +2703,18 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                       <div className="bg-muted/20 border border-border rounded-lg p-3 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">眼色</div>
                         <div className="font-bold text-foreground">{profile.physical_info.eye_color[0]}</div>
+                      </div>
+                    )}
+                    {profile.physical_info?.ethnicity_all?.length > 0 && (
+                      <div className="bg-muted/20 border border-border rounded-lg p-3 text-center">
+                        <div className="text-xs text-muted-foreground uppercase mb-1">族裔</div>
+                        <div className="font-bold text-foreground">{profile.physical_info.ethnicity_all.join(', ')}</div>
+                      </div>
+                    )}
+                    {profile.physical_info?.race_all?.length > 0 && (
+                      <div className="bg-muted/20 border border-border rounded-lg p-3 text-center">
+                        <div className="text-xs text-muted-foreground uppercase mb-1">种族</div>
+                        <div className="font-bold text-foreground">{profile.physical_info.race_all.join(', ')}</div>
                       </div>
                     )}
                   </div>
@@ -2836,6 +2860,37 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                   <div className="text-sm text-muted-foreground italic">未找到数字足迹记录。</div>
                 )}
               </section>
+
+              {/* 🇺🇸 数据来源 (8888 API) */}
+              {profile.data_breaches?.databases && profile.data_breaches.databases.length > 0 && (
+                <section>
+                  <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
+                    <Database className="w-5 h-5 text-cyan-500" /> 数据来源
+                  </h2>
+                  <div className="bg-muted/20 border border-border rounded-lg p-4">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-cyan-500">{profile.data_breaches.total_databases || profile.data_breaches.databases.length}</div>
+                        <div className="text-xs text-muted-foreground">数据库</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-cyan-500">{profile.data_breaches.total_records || 0}</div>
+                        <div className="text-xs text-muted-foreground">记录数</div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {profile.data_breaches.databases.map((db, i) => (
+                        <div key={i} className="flex items-center justify-between bg-card border border-border rounded px-3 py-2">
+                          <span className="text-sm font-medium text-foreground">{db.name || db}</span>
+                          {db.record_count && (
+                            <span className="text-xs text-muted-foreground">{db.record_count} 条</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+              )}
 
               {/* Google Maps Location Section - Map View Center */}
               {(() => {
