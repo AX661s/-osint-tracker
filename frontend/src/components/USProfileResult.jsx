@@ -2003,6 +2003,25 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                     </div>
                   )}
                   
+                  {/* 🇺🇸 美国特有: 身份警告 (8888 API) */}
+                  {finalBasicInfo?.identity_warning && (
+                    <div className="pt-2">
+                      <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-md">
+                        <div className="text-xs font-semibold text-amber-600 uppercase mb-1 flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" /> 身份分析警告
+                        </div>
+                        <div className="text-sm text-amber-700">
+                          {finalBasicInfo.identity_warning}
+                        </div>
+                        {finalBasicInfo?.identity_status && (
+                          <div className="text-[10px] text-amber-500 mt-1">
+                            状态: {finalBasicInfo.identity_status}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
                   {/* Debug NIK display */}
                   {(() => {
                     console.log('🆔 [Render] Checking NIK display conditions:');
@@ -2457,47 +2476,83 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                 )}
               </section>
 
-              {/* 🇺🇸 美国特有: 财务信息 */}
-              {(profile.financial_info?.income || profile.financial_info?.net_worth || profile.financial_info?.credit_score) && (
+              {/* 🇺🇸 美国特有: 财务信息 (8888 API) */}
+              {(profile.financial_info?.income || profile.financial_info?.net_worth || profile.financial_info?.credit_score || profile.financial_info?.credit_scores?.length > 0 || profile.financial_info?.income_levels?.length > 0 || profile.financial_info?.net_worth_all?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     <DollarSign className="w-5 h-5 text-green-500" /> 财务信息
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {profile.financial_info?.income && (
+                    {(profile.financial_info?.income || profile.financial_info?.income_levels?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">收入等级</div>
-                        <div className="text-xl font-bold text-green-500">{profile.financial_info.income}</div>
+                        <div className="text-xl font-bold text-green-500">
+                          {profile.financial_info?.income_levels?.length > 0 
+                            ? profile.financial_info.income_levels.join(', ')
+                            : profile.financial_info.income}
+                        </div>
                       </div>
                     )}
-                    {profile.financial_info?.net_worth && (
+                    {(profile.financial_info?.net_worth || profile.financial_info?.net_worth_all?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">净资产</div>
-                        <div className="text-xl font-bold text-blue-500">{profile.financial_info.net_worth}</div>
+                        <div className="text-xl font-bold text-blue-500">
+                          {profile.financial_info?.net_worth_all?.length > 0 
+                            ? profile.financial_info.net_worth_all.join(', ')
+                            : profile.financial_info.net_worth}
+                        </div>
                       </div>
                     )}
-                    {profile.financial_info?.credit_score && (
+                    {(profile.financial_info?.credit_score || profile.financial_info?.credit_scores?.length > 0) && (
                       <div className="bg-muted/20 border border-border rounded-lg p-4 text-center">
                         <div className="text-xs text-muted-foreground uppercase mb-1">信用评分</div>
-                        <div className="text-xl font-bold text-purple-500">{profile.financial_info.credit_score}</div>
+                        <div className="text-xl font-bold text-purple-500">
+                          {profile.financial_info?.credit_scores?.length > 0 
+                            ? profile.financial_info.credit_scores.join(', ')
+                            : profile.financial_info.credit_score}
+                        </div>
                       </div>
                     )}
                   </div>
                 </section>
               )}
 
-              {/* 🇺🇸 美国特有: 房产信息 */}
-              {profile.housing_info?.properties && profile.housing_info.properties.length > 0 && (
+              {/* 🇺🇸 美国特有: 房产信息 (8888 API) */}
+              {(profile.housing_info?.properties?.length > 0 || profile.housing_info?.home_values?.length > 0 || profile.housing_info?.property_types?.length > 0) && (
                 <section>
                   <h2 className="text-lg font-bold text-foreground mb-4 pb-2 border-b-2 border-border flex items-center gap-2">
                     <Home className="w-5 h-5 text-amber-500" /> 房产信息
                   </h2>
-                  <div className="space-y-2">
-                    {profile.housing_info.properties.map((prop, i) => (
-                      <div key={i} className="bg-muted/20 border border-border rounded-lg p-3 text-sm text-foreground">
-                        {prop}
+                  <div className="space-y-4">
+                    {profile.housing_info?.home_values?.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {profile.housing_info.home_values.map((value, i) => (
+                          <div key={i} className="bg-muted/20 border border-border rounded-lg p-4 text-center">
+                            <div className="text-xs text-muted-foreground uppercase mb-1">房产价值</div>
+                            <div className="text-xl font-bold text-amber-500">{value}</div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+                    {profile.housing_info?.property_types?.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {profile.housing_info.property_types.map((type, i) => (
+                          <div key={i} className="bg-muted/20 border border-border rounded-lg p-4 text-center">
+                            <div className="text-xs text-muted-foreground uppercase mb-1">房产类型</div>
+                            <div className="text-lg font-bold text-amber-500">{type}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {profile.housing_info?.properties?.length > 0 && (
+                      <div className="space-y-2">
+                        {profile.housing_info.properties.map((prop, i) => (
+                          <div key={i} className="bg-muted/20 border border-border rounded-lg p-3 text-sm text-foreground">
+                            {prop}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </section>
               )}

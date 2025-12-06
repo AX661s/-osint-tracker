@@ -248,6 +248,8 @@ def format_us_profile_result(raw_result: Dict[str, Any], phone: str) -> Dict[str
                 "nationality": "United States",
                 "country_code": "US",
                 "confidence_score": identity.get("confidence_score", 0),
+                "identity_warning": identity.get("analysis", {}).get("warning"),
+                "identity_status": identity.get("analysis", {}).get("status"),
             },
             
             # 🔥 contact_info - 印尼页面期望的格式 (不是 contact)
