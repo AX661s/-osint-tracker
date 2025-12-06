@@ -1,6 +1,7 @@
-# OSINT Tracker - Devin AI 项目简介
+# OSINT Tracker - Devin AI Project Brief
 
-## 🎯 项目概述
+## 🎯 Project Overview / 项目概述
+**OSINT Tracker** is a full-stack intelligence gathering platform for phone numbers and email lookup across multiple OSINT APIs.
 
 OSINT Tracker 是一个开源情报收集和分析平台，专门用于：
 - 📧 邮箱查询和数据泄露检测
@@ -10,110 +11,184 @@ OSINT Tracker 是一个开源情报收集和分析平台，专门用于：
 - 👥 用户管理和权限控制
 - 💰 积分系统
 
-## 🏗️ 技术架构
+## 🏗️ Architecture / 技术架构
 
-### 后端 (Python)
-- **框架**: FastAPI
-- **数据库**: SQLite (默认) / MongoDB
-- **缓存**: Redis
-- **认证**: JWT + bcrypt
+### Backend / 后端
+- **Framework**: FastAPI (Python 3.12+)
+- **Database**: SQLite with SQLAlchemy ORM / MongoDB
+- **Cache**: Redis
+- **Authentication**: JWT + bcrypt
+- **Port**: 8000 (dev), 9000 (prod)
 
-### 前端 (React)
-- **框架**: React 18
-- **UI**: Tailwind CSS + Radix UI
-- **地图**: Leaflet + Mapbox
-- **状态管理**: React Hook Form
-- **构建**: Create React App + Craco
+### Frontend / 前端
+- **Framework**: React 18.3
+- **UI Library**: Tailwind CSS + Radix UI / shadcn/ui
+- **Maps**: Leaflet + Mapbox GL
+- **State Management**: React Hook Form
+- **Build**: Create React App + Craco
+- **Port**: 3000 (dev), 80 (prod)
 
-## 🔌 外部集成
+### Infrastructure / 基础设施
+- **Containerization**: Docker + Docker Compose
+- **Web Server**: Nginx (production)
+- **Services**: Backend, Frontend, MongoDB, Redis
 
-### 核心 API 服务
-- **RapidAPI** - 多个服务集成
-- **OSINT Industries** - 专业 OSINT 数据
-- **Have I Been Pwned** - 数据泄露检查
+## 🔑 Key Features / 核心功能
 
-### 电话查询服务
-- **Truecaller** - 全球电话号码查询
-- **IPQualityScore** - 电话验证和风险评估
-- **AceLogic** - 电话号码情报
-- **Melissa** - 电话验证服务
+1. **Multi-Source Intelligence / 多源情报收集**
+   - Email breach detection (Have I Been Pwned) / 邮箱数据泄露检测
+   - Phone number lookup (US & Indonesia) / 电话号码查询（美国、印尼）
+   - Social media tracking (Telegram, Facebook, WhatsApp) / 社交媒体追踪
+   - TrueCaller integration / TrueCaller 集成
 
-### 社交媒体服务
-- **WhatsApp** - WhatsApp 账户查询
-- **Telegram** - Telegram 用户查询
-- **Facebook** - Facebook 档案查询
+2. **User Management / 用户管理**
+   - Authentication system (Session tokens) / 认证系统
+   - Points-based credit system / 积分系统
+   - Admin dashboard / 管理员面板
+   - Role-based permissions / 基于角色的权限
 
-## 🚀 核心功能
+3. **Data Visualization / 数据可视化**
+   - Profile cards with structured data / 结构化档案卡片
+   - Interactive maps (Mapbox) / 交互式地图
+   - Avatar aggregation / 头像聚合
+   - Historical query logs / 历史查询记录
 
-### 1. 邮箱情报收集
-- 数据泄露历史查询
-- 邮箱关联账户发现
-- 社交媒体档案匹配
+## 📁 Directory Structure / 目录结构
 
-### 2. 电话号码分析
-- 运营商信息查询
-- 地理位置定位
-- 社交媒体关联
-- 风险评估分析
+```
+.
+├── backend/
+│   ├── server.py              # FastAPI main server
+│   ├── models.py              # SQLAlchemy models
+│   ├── db_operations.py       # Database operations
+│   ├── auth_operations.py     # Authentication logic
+│   └── apis/                  # API adapters (20+ integrations)
+├── frontend/
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── components/        # React components
+│   │   ├── pages/             # Page components
+│   │   └── services/          # API services
+│   └── public/
+├── docker-compose.yml
+└── Documentation (10+ MD files)
+```
 
-### 3. 社交媒体调查
-- 跨平台账户关联
-- 档案信息提取
-- 活动轨迹分析
+## 🚀 Quick Start Commands / 快速启动
 
-### 4. 数据可视化
-- 交互式地图展示
-- 关系网络图谱
-- 时间线分析
-- 统计报表
+### Development / 开发环境
+```bash
+# Backend / 后端
+cd backend
+pip install -r requirements.txt
+python server.py
 
-## 🎨 用户界面特性
+# Frontend / 前端
+cd frontend
+yarn install
+yarn start
+```
 
-- 🌙 深色/浅色主题切换
-- 📱 响应式设计
-- 🔍 实时搜索建议
-- 📊 数据可视化图表
-- 🗺️ 交互式地图界面
-- 📋 结果导出功能
+### Production (Docker) / 生产环境
+```bash
+docker-compose up --build
+```
 
-## 🔐 安全特性
+## 🔌 External APIs / 外部 API 集成
 
-- JWT 令牌认证
-- 密码哈希存储
-- API 速率限制
-- CORS 跨域保护
-- 输入验证和清理
+### Core Services / 核心服务
+- **RapidAPI** - Multiple service integrations / 多服务集成
+- **OSINT Industries** - Professional OSINT data / 专业 OSINT 数据
+- **Have I Been Pwned** - Data breach detection / 数据泄露检测
 
-## 📈 性能优化
+### Phone Query Services / 电话查询服务
+- **Truecaller** - Global phone number lookup / 全球电话号码查询
+- **IPQualityScore** - Phone verification and risk assessment / 电话验证和风险评估
+- **AceLogic** - Phone number intelligence / 电话号码情报
+- **Melissa** - Phone validation services / 电话验证服务
 
-- Redis 缓存系统
-- 异步 API 调用
-- 前端代码分割
-- 图片懒加载
-- API 响应压缩
+### Social Media Services / 社交媒体服务
+- **WhatsApp** - WhatsApp account queries / WhatsApp 账户查询
+- **Telegram** - Telegram user queries / Telegram 用户查询
+- **Facebook** - Facebook profile queries / Facebook 档案查询
 
-## 🌍 国际化支持
+## 💾 Database Schema / 数据库架构
 
-- 多语言界面（中文/英文）
-- 地区特定 API 集成
-- 本地化数据格式
-- 时区自动转换
+**Main Tables / 主要表**:
+- `users` - User accounts with points / 用户账户和积分
+- `sessions` - Login sessions / 登录会话
+- `email_queries` - Email lookup history / 邮箱查询历史
+- `phone_queries` - Phone lookup history / 电话查询历史
+- `points_transactions` - Credit transactions / 积分交易
+- `api_usage_logs` - API usage tracking / API 使用追踪
 
-## 🔄 部署选项
+## 🔐 Security Features / 安全特性
 
-### 开发环境
-- 本地 Python + React 开发服务器
-- 热重载和实时调试
+- bcrypt password hashing / bcrypt 密码哈希
+- Session token authentication / 会话令牌认证
+- SQLAlchemy ORM (SQL injection prevention) / SQL 注入防护
+- CORS configuration / CORS 跨域配置
+- Environment variable protection / 环境变量保护
+- API key management / API 密钥管理
 
-### 生产环境
-- Docker 容器化部署
-- Nginx 反向代理
-- 数据库持久化存储
+## 📊 API Endpoints (40+) / API 端点
 
-## 📊 使用场景
+### Authentication / 认证
+- `POST /api/auth/login`
+- `POST /api/auth/verify`
+- `POST /api/auth/logout`
 
-- **安全研究**: 威胁情报收集
-- **合规调查**: 数据泄露影响评估
-- **背景调查**: 人员信息验证
-- **欺诈检测**: 虚假身份识别
-- **学术研究**: OSINT 方法论研究
+### Queries / 查询
+- `POST /api/email/query`
+- `POST /api/phone/query`
+- `GET /api/indonesia/profile/formatted`
+
+### Admin / 管理
+- `GET /api/admin/stats`
+- `GET /api/admin/users`
+- `GET /api/admin/logs/queries`
+
+## 🎨 UI Components / 用户界面组件
+
+- Modern dashboard with dark mode / 现代化深色主题面板
+- Real-time loading animations / 实时加载动画
+- Profile cards with maps / 带地图的档案卡片
+- Admin panel with stats / 统计管理面板
+- Error boundaries and fallbacks / 错误边界和回退
+
+## 📦 Dependencies / 依赖项
+
+**Backend**: fastapi, sqlalchemy, httpx, bcrypt, redis, uvicorn
+**Frontend**: react, tailwindcss, mapbox-gl, axios, radix-ui
+
+## 🎯 Potential Improvements for Devin / Devin 改进建议
+
+1. **Add rate limiting** to prevent API abuse / 添加速率限制防止 API 滥用
+2. **Implement caching layer** for repeated queries / 实现缓存层用于重复查询
+3. **Add unit tests** (pytest for backend, Jest for frontend) / 添加单元测试
+4. **Optimize Docker images** (multi-stage builds) / 优化 Docker 镜像
+5. **Add API documentation** (Swagger/OpenAPI) / 添加 API 文档
+6. **Implement WebSocket** for real-time updates / 实现 WebSocket 实时更新
+7. **Add export functionality** (PDF reports) / 添加导出功能
+8. **Enhance error handling** across all endpoints / 增强错误处理
+9. **Add logging aggregation** (ELK stack) / 添加日志聚合
+10. **Implement CI/CD pipeline** (GitHub Actions) / 实现 CI/CD 流水线
+
+## 📝 Documentation Files / 文档文件
+
+- `START_HERE.md` - Quick start guide / 快速开始指南
+- `PROJECT_OVERVIEW_COMPLETE.md` - Full project overview (717 lines) / 完整项目概览
+- `API_ARCHITECTURE.md` - API structure explanation / API 架构说明
+- `DOCKER_QUICK_START.md` - Docker deployment / Docker 部署
+- `INDONESIA_API_QUICK_START.md` - Indonesia API guide / 印尼 API 指南
+- `POINTS_SYSTEM_QUICK_START.md` - Credits system / 积分系统
+
+## 🔗 Repository / 仓库
+https://github.com/AX661s/-osint-tracker
+
+---
+
+**Project Status**: ✅ Production Ready / 生产就绪
+**Last Updated**: December 7, 2025
+**Tech Stack**: Python FastAPI + React + Docker
+**Lines of Code**: ~15,000+
