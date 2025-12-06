@@ -1444,15 +1444,20 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
     return uniqueAccounts;
   }, [data_breaches?.details, primaryEmail]);
 
-  // Use Google avatar if available, otherwise fallback to Truecaller (v2025-11-27 FIXED)
+  // Use Google avatar if available, otherwise fallback to Truecaller or 8888 API avatar_urls (v2025-11-27 FIXED)
   // Proxy Google avatar through backend to avoid CORS issues
   const finalAvatarUrl = React.useMemo(() => {
     if (googleAvatarUrl) {
-      // Use backend proxy for Google avatars
       return `${API_BASE}/avatar?url=${encodeURIComponent(googleAvatarUrl)}`;
     }
-    return avatarUrl;
-  }, [googleAvatarUrl, avatarUrl]);
+    if (avatarUrl) {
+      return avatarUrl;
+    }
+    if (accounts?.avatar_urls && Array.isArray(accounts.avatar_urls) && accounts.avatar_urls.length > 0) {
+      return `${API_BASE}/avatar?url=${encodeURIComponent(accounts.avatar_urls[0])}`;
+    }
+    return null;
+  }, [googleAvatarUrl, avatarUrl, accounts?.avatar_urls]);
 
   // Debug avatar URL
   console.log('🖼️ Avatar URL (original):', avatarUrl);
@@ -1627,7 +1632,69 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
       }
     }
     
-    // Source 2: extractedSocialMedia (from data_breaches)
+    // Source 2: 8888 API accounts format (facebook, linkedin, twitter, instagram, tiktok arrays)
+    if (accounts) {
+      try {
+        // Facebook accounts
+        if (Array.isArray(accounts.facebook) && accounts.facebook.length > 0) {
+          accounts.facebook.forEach(id => {
+            if (id) allAccounts.push({ platform: 'Facebook', username: id, id: id });
+          });
+        }
+        // LinkedIn accounts
+        if (Array.isArray(accounts.linkedin) && accounts.linkedin.length > 0) {
+          accounts.linkedin.forEach(id => {
+            if (id) allAccounts.push({ platform: 'LinkedIn', username: id, id: id });
+          });
+        }
+        // Twitter accounts
+        if (Array.isArray(accounts.twitter) && accounts.twitter.length > 0) {
+          accounts.twitter.forEach(handle => {
+            if (handle) allAccounts.push({ platform: 'Twitter', username: handle, id: handle });
+          });
+        }
+        // Instagram accounts
+        if (Array.isArray(accounts.instagram) && accounts.instagram.length > 0) {
+          accounts.instagram.forEach(handle => {
+            if (handle) allAccounts.push({ platform: 'Instagram', username: handle, id: handle });
+          });
+        }
+        // TikTok accounts
+        if (Array.isArray(accounts.tiktok) && accounts.tiktok.length > 0) {
+          accounts.tiktok.forEach(handle => {
+            if (handle) allAccounts.push({ platform: 'TikTok', username: handle, id: handle });
+          });
+        }
+        // Nicknames
+        if (Array.isArray(accounts.nicknames) && accounts.nicknames.length > 0) {
+          accounts.nicknames.forEach(nickname => {
+            if (nickname) allAccounts.push({ platform: 'Nickname', username: nickname, nickname: nickname });
+          });
+        }
+        // Profile URLs
+        if (Array.isArray(accounts.profiles) && accounts.profiles.length > 0) {
+          accounts.profiles.forEach(url => {
+            if (url) {
+              const platform = url.includes('linkedin') ? 'LinkedIn' : 
+                              url.includes('facebook') ? 'Facebook' :
+                              url.includes('twitter') ? 'Twitter' :
+                              url.includes('instagram') ? 'Instagram' : 'Profile';
+              allAccounts.push({ platform: platform, username: url, url: url });
+            }
+          });
+        }
+        // Websites
+        if (Array.isArray(accounts.websites) && accounts.websites.length > 0) {
+          accounts.websites.forEach(url => {
+            if (url) allAccounts.push({ platform: 'Website', username: url, url: url });
+          });
+        }
+      } catch (e) {
+        console.error('Error processing 8888 API accounts:', e);
+      }
+    }
+    
+    // Source 3: extractedSocialMedia (from data_breaches)
     if (Array.isArray(extractedSocialMedia) && extractedSocialMedia.length > 0) {
       allAccounts = [...allAccounts, ...extractedSocialMedia];
     }
@@ -1694,7 +1761,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
       seen.add(key);
       return true;
     });
-  }, [accounts?.details, extractedSocialMedia]);
+  }, [accounts, extractedSocialMedia]);
 
   // Sort emails by frequency of usage in accounts and common providers
   const sortedEmails = React.useMemo(() => {
