@@ -98,9 +98,9 @@
     0 2px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* 渐变文字 */
+/* 渐变文字 - Cyber主题 */
 .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #00D5D5 0%, #1A9B8E 50%, #00E673 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
