@@ -1411,6 +1411,71 @@ async def truecaller_phone_lookup(phone: str):
         return {"success": False, "error": str(e), "source": "truecaller"}
 
 
+@api_router.post("/social/telegram/aggressive")
+async def telegram_aggressive_check(request: Request):
+    """
+    Telegram Aggressive Check - 批量检测电话号码是否有Telegram账号
+    
+    Args:
+        request body: {"phone_numbers": ["+14403828826", "+1234567890"]}
+        
+    Returns:
+        Telegram账号信息（用户名、头像、是否Premium等）
+    """
+    try:
+        from apis.telegram_aggressive import check_telegram_aggressive
+        
+        body = await request.json()
+        phone_numbers = body.get('phone_numbers', [])
+        
+        if not phone_numbers:
+            return {
+                "success": False,
+                "error": "phone_numbers parameter is required",
+                "source": "telegram_aggressive"
+            }
+        
+        if not isinstance(phone_numbers, list):
+            phone_numbers = [phone_numbers]
+        
+        logger.info(f"📱 [Telegram Aggressive] 批量查询: {phone_numbers}")
+        result = await check_telegram_aggressive(phone_numbers, timeout=30)
+        return result
+    except Exception as e:
+        logger.error(f"❌ [Telegram Aggressive] 错误: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "source": "telegram_aggressive"
+        }
+
+
+@api_router.get("/social/telegram/aggressive/{phone}")
+async def telegram_aggressive_check_single(phone: str):
+    """
+    Telegram Aggressive Check - 单个电话号码检测（GET方法）
+    
+    Args:
+        phone: 电话号码（例如：+14403828826 或 14403828826）
+        
+    Returns:
+        该号码的Telegram账号信息
+    """
+    try:
+        from apis.telegram_aggressive import check_single_telegram_aggressive
+        
+        logger.info(f"📱 [Telegram Aggressive Single] 查询: {phone}")
+        result = await check_single_telegram_aggressive(phone, timeout=30)
+        return result
+    except Exception as e:
+        logger.error(f"❌ [Telegram Aggressive Single] 错误: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "source": "telegram_aggressive"
+        }
+
+
 @api_router.get("/social/twitter")
 async def twitter_user_lookup(username: str):
     """
