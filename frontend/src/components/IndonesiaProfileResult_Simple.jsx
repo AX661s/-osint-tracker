@@ -4085,12 +4085,6 @@ function InstagramModal({ isOpen, username, loading, data, error, onClose }) {
               </a>
             </div>
           )}
-
-            {/* Right Column: GetContact Widget */}
-            <div className="lg:col-span-1">
-              <GetContactWidget phoneNumber={query} />
-            </div>
-
         </div>
       </div>
     </div>
