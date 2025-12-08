@@ -101,12 +101,15 @@ except Exception as e:
 # MongoDB connection (optional)
 try:
     mongo_url = os.environ.get('MONGO_URL')
+    db_name = os.environ.get('DB_NAME', 'osint_tracker')
     if mongo_url:
         client = AsyncIOMotorClient(mongo_url)
-        db = client[os.environ.get('DB_NAME', 'jackma_db')]
+        db = client[db_name]
+        logger.info(f"✅ MongoDB connected: {db_name}")
     else:
         db = None
         client = None
+        logger.warning("⚠️ MongoDB connection not configured")
 except Exception as e:
     print(f"[WARNING] MongoDB connection skipped: {str(e)}")
     db = None
