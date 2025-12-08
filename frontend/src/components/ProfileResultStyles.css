@@ -226,11 +226,12 @@
 .stat-card:hover {
   transform: translateY(-8px) scale(1.03);
   box-shadow: 
-    0 20px 60px rgba(59, 130, 246, 0.15),
-    0 8px 24px rgba(59, 130, 246, 0.08),
-    inset 0 2px 6px rgba(255, 255, 255, 1),
-    inset 0 -2px 4px rgba(59, 130, 246, 0.05);
-  border-color: rgba(255, 255, 255, 0.95);
+    0 20px 60px rgba(0, 213, 213, 0.25),
+    0 8px 24px rgba(0, 230, 115, 0.15),
+    0 0 40px rgba(0, 213, 213, 0.2),
+    inset 0 2px 6px rgba(0, 213, 213, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 213, 213, 0.5);
 }
 
 /* 头像容器 - 水晶质感 */
