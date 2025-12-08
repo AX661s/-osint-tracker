@@ -41,8 +41,8 @@ WHATSAPP_RAPIDAPI_KEY: str = os.getenv("WHATSAPP_RAPIDAPI_KEY", "")
 # Melissa GlobalPhone API
 MELISSA_API_KEY: str = os.getenv("MELISSA_API_KEY", "")
 
-# Indonesia API URL
-INDONESIA_API_URL: str = os.getenv("INDONESIA_API_URL", "http://47.253.47.192:9999")
+# Indonesia API URL - Must be set in .env file
+INDONESIA_API_URL: str = os.getenv("INDONESIA_API_URL", "")
 
 # Expose a helper for masking keys (useful across modules)
 def mask_key(key: str) -> str:
