@@ -1920,16 +1920,16 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
           <div className="grid grid-cols-1 lg:grid-cols-3">
             
             {/* Left Column: Identity & Contact */}
-            <div className="lg:col-span-1 bg-muted/30 p-8 border-r border-border space-y-8">
+            <div className="lg:col-span-1 glass-card p-8 space-y-8 slide-in-right">
               
-              {/* Avatar Placeholder */}
-              <div className="flex justify-center">
-                <div className="w-48 h-48 bg-card rounded-lg border-2 border-border flex items-center justify-center shadow-sm overflow-hidden relative group">
+              {/* Avatar - Premium Style */}
+              <div className="flex justify-center fade-in">
+                <div className="premium-avatar" style={{width: '180px', height: '180px'}}>
                   {finalAvatarUrl ? (
                     <img 
                       src={finalAvatarUrl} 
                       alt="Profile" 
-                      className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                      className="w-full h-full object-cover"
                       onError={(e) => {
                         console.error('❌ Avatar image failed to load:', finalAvatarUrl);
                         e.target.style.display = 'none';
@@ -1944,9 +1944,10 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                       }}
                     />
                   ) : null}
-                  <div className={`fallback-avatar w-full h-full flex items-center justify-center bg-card ${finalAvatarUrl ? 'hidden' : ''}`}>
-                    <User className="w-24 h-24 text-muted-foreground/20" />
+                  <div className={`fallback-avatar w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-100 to-blue-100 ${finalAvatarUrl ? 'hidden' : ''}`}>
+                    <User className="w-24 h-24 text-purple-400/40" />
                   </div>
+                  <div className="status-badge status-online"></div>
                 </div>
               </div>
 
