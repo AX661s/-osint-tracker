@@ -2136,7 +2136,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                             >
                               <div className="flex items-start gap-3">
                                 {/* Avatar with fallback to platform logo */}
-                                <div className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center border-2 bg-white" style={{ borderColor: colors.border }}>
+                                <div className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center border-2 bg-slate-900/80" style={{ borderColor: colors.border }}>
                                   {social.avatar ? (
                                     <img 
                                       src={social.avatar} 
@@ -2222,7 +2222,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                             className="flex items-center gap-3 w-full px-4 py-3 text-base font-medium rounded-lg border-2 bg-transparent"
                             style={{ borderColor: '#0088CC', color: '#0088CC' }}
                           >
-                            <div className="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center border-2 bg-white" style={{ borderColor: '#0088CC' }}>
+                            <div className="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center border-2 bg-slate-900/80" style={{ borderColor: '#0088CC' }}>
                               {(telegramData.data.user_info?.avatar_url || telegramData.data.avatar_url || telegramData.data.photo_url) ? (
                                 <img src={`${API_BASE}/avatar?url=${encodeURIComponent(telegramData.data.user_info?.avatar_url || telegramData.data.avatar_url || telegramData.data.photo_url)}`} alt="Telegram" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling?.classList.remove('hidden'); }} />
                               ) : null}
@@ -2267,7 +2267,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                             className="flex items-center gap-3 w-full px-4 py-3 text-base font-medium rounded-lg border-2 bg-transparent"
                             style={{ borderColor: '#25D366', color: '#25D366' }}
                           >
-                            <div className="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center border-2 bg-white" style={{ borderColor: '#25D366' }}>
+                            <div className="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden flex items-center justify-center border-2 bg-slate-900/80" style={{ borderColor: '#25D366' }}>
                               {(truecallerData.data.data?.image || truecallerData.data.image || truecallerData.data.profile?.image) ? (
                                 <img src={truecallerData.data.data?.image || truecallerData.data.image || truecallerData.data.profile?.image} alt="WhatsApp" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling?.classList.remove('hidden'); }} />
                               ) : null}
