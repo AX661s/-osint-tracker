@@ -1845,6 +1845,11 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
 
   return (
     <div className="min-h-screen premium-page-bg p-4 md:p-8 font-sans relative">
+      {/* 水晶装饰球 */}
+      <div className="crystal-orb crystal-orb-1"></div>
+      <div className="crystal-orb crystal-orb-2"></div>
+      <div className="crystal-orb crystal-orb-3"></div>
+      
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Toolbar */}
         <div className="flex items-center justify-between mb-8 print:hidden fade-in">
