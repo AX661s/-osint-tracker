@@ -1882,7 +1882,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
           <div className="grid grid-cols-1 lg:grid-cols-3">
             
             {/* Left Column: Identity & Contact */}
-            <div className="lg:col-span-1 bg-muted/30 p-8 border-r border-border space-y-8">
+            <div className="lg:col-span-1 glass-card p-8 space-y-8 slide-in-right">
               
               {/* Avatar - Premium Style */}
               <div className="flex justify-center fade-in">
