@@ -1897,7 +1897,7 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
           </div>
 
           {/* Statistics Overview */}
-          <div className="p-8 bg-gradient-to-br from-slate-50 to-white">
+          <div className="p-8">
             <StatsGrid>
               <RiskScoreStats level={riskLevel} />
               <DataBreachStats count={uniqueBreaches?.length || 0} />
