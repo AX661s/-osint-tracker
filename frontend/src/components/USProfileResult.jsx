@@ -1842,11 +1842,11 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
   const riskColorClass = riskLevel === '高风险' ? 'text-red-500 bg-red-500/10 border-red-500/20' : riskLevel === '中等' ? 'text-yellow-500 bg-yellow-500/10 border-yellow-500/20' : 'text-green-500 bg-green-500/10 border-green-500/20';
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8 font-sans text-foreground">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen premium-page-bg p-4 md:p-8 font-sans relative">
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Toolbar */}
-        <div className="flex items-center justify-between mb-6 print:hidden">
-          <button onClick={onBack} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors font-medium">
+        <div className="flex items-center justify-between mb-8 print:hidden fade-in">
+          <button onClick={onBack} className="flex items-center gap-2 px-4 py-2 rounded-xl text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-105 font-medium shadow-lg">
             <ArrowLeft className="w-5 h-5" /> 返回搜索
           </button>
           <div className="flex gap-3">
