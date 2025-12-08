@@ -2612,14 +2612,24 @@ async def add_csp_headers(request, call_next):
     response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
     return response
 
-# CORS middleware - Allow all localhost ports for development
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1|0\.0\.0\.0):\d+",
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# CORS middleware - Allow all origins for production deployment
+CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
+if CORS_ORIGINS == '*':
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=CORS_ORIGINS.split(','),
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 # Mount static files for production (frontend build)
 FRONTEND_BUILD_DIR = ROOT_DIR.parent / "frontend" / "build"
