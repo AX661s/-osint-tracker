@@ -4,6 +4,7 @@ import ReactCountryFlag from 'react-country-flag';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './ProfileResultStyles.css';
+import './CrystalEnhancements.css';
 import { StatsGrid, DataBreachStats, SocialAccountsStats, EmailsStats, RiskScoreStats } from './PremiumStatsCard';
 
 // Mapbox Token
