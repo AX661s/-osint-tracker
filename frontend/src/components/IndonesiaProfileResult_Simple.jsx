@@ -3357,6 +3357,12 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
               </section>
 
             </div>
+
+            {/* Right Column: GetContact Widget */}
+            <div className="lg:col-span-1">
+              <GetContactWidget phoneNumber={query} />
+            </div>
+
           </div>
 
           {/* Footer */}
