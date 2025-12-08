@@ -1858,23 +1858,34 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
         </div>
 
         {/* Report Container */}
-        <div className="bg-card shadow-xl rounded-sm overflow-hidden border border-border print:shadow-none print:border-none">
+        <div className="glass-card shadow-2xl rounded-2xl overflow-hidden print:shadow-none fade-in">
           
-          {/* Report Header */}
-          <div className="bg-slate-950 text-white p-8 border-b-4 border-primary flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2 text-white">{basic_info?.name || 'UNKNOWN SUBJECT'}</h1>
-              <div className="flex items-center gap-4 text-slate-400 text-sm uppercase tracking-widest font-semibold">
-                <span>机密档案报告</span>
-                <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
-                <span>{new Date().toLocaleDateString()}</span>
-              </div>
+          {/* Report Header - Premium Style */}
+          <div className="relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-10 overflow-hidden">
+            {/* Decorative background elements */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
             </div>
-            <div className={`px-6 py-3 rounded border ${riskColorClass}`}>
-              <div className="text-xs uppercase tracking-wider font-bold opacity-80 mb-1">风险评估</div>
-              <div className="text-2xl font-black flex items-center gap-2">
-                <Shield className="w-6 h-6" />
-                {riskLevel.toUpperCase()}
+            
+            <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 text-white drop-shadow-lg">{basic_info?.name || 'UNKNOWN SUBJECT'}</h1>
+                <div className="flex items-center gap-4 text-purple-200 text-sm uppercase tracking-widest font-semibold">
+                  <Shield className="w-4 h-4" />
+                  <span>机密档案报告</span>
+                  <span className="w-1.5 h-1.5 bg-purple-400 rounded-full"></span>
+                  <span>{new Date().toLocaleDateString()}</span>
+                </div>
+              </div>
+              <div className="premium-badge badge-info px-8 py-4 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <Shield className="w-7 h-7" />
+                  <div>
+                    <div className="text-xs uppercase tracking-wider font-bold opacity-70">风险评估</div>
+                    <div className="text-2xl font-black">{riskLevel.toUpperCase()}</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
