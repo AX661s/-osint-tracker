@@ -548,10 +548,10 @@
   height: 64px;
   border-radius: 18px;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(0, 213, 213, 0.4);
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+    0 4px 12px rgba(0, 213, 213, 0.15),
+    inset 0 1px 2px rgba(0, 213, 213, 0.2);
   flex-shrink: 0;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
@@ -563,7 +563,7 @@
   inset: 0;
   border-radius: 18px;
   padding: 2px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+  background: linear-gradient(135deg, rgba(0, 213, 213, 0.6), rgba(0, 230, 115, 0.6));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -572,11 +572,12 @@
 }
 
 .social-card:hover .social-avatar {
-  border-color: rgba(59, 130, 246, 0.6);
+  border-color: rgba(0, 213, 213, 0.8);
   transform: scale(1.08) rotate(2deg);
   box-shadow: 
-    0 8px 24px rgba(59, 130, 246, 0.2),
-    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    0 8px 24px rgba(0, 213, 213, 0.3),
+    0 0 20px rgba(0, 230, 115, 0.2),
+    inset 0 1px 2px rgba(0, 213, 213, 0.4);
 }
 
 .social-card:hover .social-avatar::before {
