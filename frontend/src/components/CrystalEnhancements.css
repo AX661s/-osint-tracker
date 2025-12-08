@@ -1,0 +1,347 @@
+/* ===============================================
+   水晶增强效果 - Crystal Visual Enhancements
+   Apple-inspired Glassmorphism & Animations
+   =============================================== */
+
+/* 全局水晶效果 */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 背景装饰球 */
+.crystal-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+  animation: float-orb 15s ease-in-out infinite;
+}
+
+.crystal-orb-1 {
+  top: 10%;
+  left: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.4), transparent 70%);
+  animation-delay: 0s;
+}
+
+.crystal-orb-2 {
+  top: 60%;
+  right: 10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+  animation-delay: 3s;
+}
+
+.crystal-orb-3 {
+  bottom: 10%;
+  left: 40%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.25), transparent 70%);
+  animation-delay: 6s;
+}
+
+@keyframes float-orb {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 30px) scale(0.95);
+  }
+}
+
+/* 微光效果 */
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 70%
+  );
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translate(-100%, -100%) rotate(45deg);
+  }
+  100% {
+    transform: translate(100%, 100%) rotate(45deg);
+  }
+}
+
+/* 脉冲光晕 */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(59, 130, 246, 0.3),
+      0 0 40px rgba(147, 51, 234, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(59, 130, 246, 0.5),
+      0 0 60px rgba(147, 51, 234, 0.3);
+  }
+}
+
+/* 渐进式出现 */
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 延迟动画类 */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* 悬浮效果 */
+.hover-lift {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+}
+
+/* 水晶分隔线 */
+.crystal-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(147, 197, 253, 0.3) 20%,
+    rgba(196, 181, 253, 0.3) 50%,
+    rgba(251, 207, 232, 0.3) 80%,
+    transparent 100%
+  );
+  margin: 32px 0;
+  position: relative;
+}
+
+.crystal-divider::before,
+.crystal-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  transform: translateY(-50%);
+}
+
+.crystal-divider::before {
+  left: 20%;
+}
+
+.crystal-divider::after {
+  right: 20%;
+}
+
+/* 数据卡片光效 */
+.data-card-glow {
+  position: relative;
+}
+
+.data-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(147, 197, 253, 0.5),
+    rgba(196, 181, 253, 0.5),
+    rgba(251, 207, 232, 0.5)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.data-card-glow:hover::before {
+  opacity: 1;
+}
+
+/* 水晶按钮效果 */
+.crystal-button {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.crystal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 24px rgba(59, 130, 246, 0.2),
+    inset 0 1px 3px rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 水晶文本效果 */
+.crystal-text {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 51, 234, 0.9),
+    rgba(59, 130, 246, 0.9),
+    rgba(236, 72, 153, 0.9)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  position: relative;
+}
+
+.crystal-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  z-index: -1;
+  background: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(8px);
+  opacity: 0.5;
+}
+
+/* 加载动画 - 水晶风格 */
+.crystal-loader {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  margin: 40px auto;
+}
+
+.crystal-loader::before,
+.crystal-loader::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: rgba(147, 51, 234, 0.6);
+  animation: crystal-spin 1.5s linear infinite;
+}
+
+.crystal-loader::before {
+  width: 50px;
+  height: 50px;
+}
+
+.crystal-loader::after {
+  width: 35px;
+  height: 35px;
+  top: 50%;
+  left: 50%;
+  margin: -17.5px 0 0 -17.5px;
+  border-top-color: rgba(59, 130, 246, 0.6);
+  animation-duration: 1s;
+  animation-direction: reverse;
+}
+
+@keyframes crystal-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .crystal-orb {
+    width: 250px !important;
+    height: 250px !important;
+  }
+  
+  .shimmer-effect::after {
+    animation-duration: 4s;
+  }
+}
+
+/* 深色模式增强 */
+@media (prefers-color-scheme: dark) {
+  .crystal-orb {
+    opacity: 0.1;
+  }
+  
+  .crystal-divider {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(147, 197, 253, 0.2) 20%,
+      rgba(196, 181, 253, 0.2) 50%,
+      rgba(251, 207, 232, 0.2) 80%,
+      transparent 100%
+    );
+  }
+}
+
+/* 性能优化 */
+.crystal-card {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* 辅助功能 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
