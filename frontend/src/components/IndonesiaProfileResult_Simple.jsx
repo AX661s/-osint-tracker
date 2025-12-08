@@ -2358,8 +2358,8 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
 
             </div>
 
-            {/* Right Column: Professional, Digital, Breaches */}
-            <div className="lg:col-span-2 p-8 space-y-10 bg-card">
+            {/* Middle Column: Professional, Digital, Breaches */}
+            <div className="lg:col-span-2 p-8 space-y-10">
               
               {/* Professional Section */}
               <section>
