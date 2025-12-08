@@ -499,54 +499,54 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
             </div>
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { 
                   title: '总用户数', 
                   value: stats.total_users, 
                   icon: Users,
-                  color: 'from-blue-500 to-blue-600',
+                  color: 'cyan',
                   trend: '+2.5%'
                 },
                 { 
                   title: '邮箱查询', 
                   value: stats.total_email_queries, 
                   icon: Database,
-                  color: 'from-green-500 to-green-600',
+                  color: 'emerald',
                   trend: '+12.3%'
                 },
                 { 
                   title: '电话查询', 
                   value: stats.total_phone_queries, 
                   icon: TrendingUp,
-                  color: 'from-purple-500 to-purple-600',
+                  color: 'teal',
                   trend: '+8.1%'
                 },
                 { 
                   title: '活跃会话', 
                   value: stats.active_sessions, 
                   icon: Activity,
-                  color: 'from-orange-500 to-orange-600',
+                  color: 'cyan',
                   trend: '+4.2%'
                 },
               ].map((stat, index) => {
                 const Icon = stat.icon;
+                const delay = index * 100;
                 return (
-                  <Card key={index} className="p-6 border-0 bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-5 rounded-lg`}></div>
-                    <div className="relative">
-                      <div className="flex items-center justify-between mb-4">
-                        <p className="text-muted-foreground text-sm font-medium">{stat.title}</p>
-                        <Icon className={`w-6 h-6 text-primary/60`} />
+                  <div key={index} className="stat-card fade-in-up hover-lift group" style={{animationDelay: `${delay}ms`}}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`icon-container icon-container-${stat.color === 'cyan' ? 'blue' : stat.color === 'emerald' ? 'green' : 'purple'}`}>
+                        <Icon className="w-5 h-5" />
                       </div>
-                      <div className="flex items-end justify-between">
-                        <div>
-                          <p className="text-4xl font-bold">{stat.value.toLocaleString()}</p>
-                          <p className="text-xs text-green-500 mt-1">{stat.trend}</p>
-                        </div>
-                      </div>
+                      <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{
+                        background: 'linear-gradient(135deg, rgba(0, 230, 115, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%)',
+                        border: '1px solid rgba(0, 230, 115, 0.3)',
+                        color: '#6ee7b7'
+                      }}>{stat.trend}</span>
                     </div>
-                  </Card>
+                    <p className="text-sm text-gray-400 font-medium mb-2">{stat.title}</p>
+                    <p className="text-4xl font-bold gradient-text">{stat.value.toLocaleString()}</p>
+                  </div>
                 );
               })}
             </div>
