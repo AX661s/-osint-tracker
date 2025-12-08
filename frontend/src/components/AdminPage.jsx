@@ -457,10 +457,10 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
         {activeTab === 'dashboard' && (
           <div className="space-y-6 animate-fade-in">
             {/* Header with Refresh */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center fade-in-up">
               <div>
-                <h2 className="text-3xl font-bold">系统统计仪表板</h2>
-                <p className="text-sm text-muted-foreground mt-1">实时系统数据和分析</p>
+                <h2 className="text-4xl font-bold text-cyan-300">系统统计仪表板</h2>
+                <p className="text-sm text-gray-400 mt-2">实时系统数据和分析</p>
               </div>
               {/* Pagination */}
               <div className="flex items-center justify-between mt-4">
