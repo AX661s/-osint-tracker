@@ -4,6 +4,7 @@ import ReactCountryFlag from 'react-country-flag';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './ProfileResultStyles.css';
+import { StatsGrid, DataBreachStats, SocialAccountsStats, EmailsStats, RiskScoreStats } from './PremiumStatsCard';
 
 // Mapbox Token
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoic3RlaW4xMjMiLCJhIjoiY21ocTVwam9xMGE4aTJrczd4MW9yNTYzbyJ9.d2rHs6GWcZRkgdD6FAQaMA';
