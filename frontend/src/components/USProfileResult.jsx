@@ -2337,6 +2337,13 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                           </div>
                         )}
                       </div>
+                      
+                      {/* ==================== 新增: Telegram Aggressive 卡片 ==================== */}
+                      {phoneForSocial && (
+                        <div className="mt-4">
+                          <TelegramCard phoneNumber={phoneForSocial} autoSearch={true} />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
