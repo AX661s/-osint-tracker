@@ -45,3 +45,7 @@ frontend/dist/
 *.cache
 redis_data/
 mongodb_data/
+-e 
+# Environment files
+*.env
+*.env.*
