@@ -68,16 +68,24 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware
-ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:8000,http://localhost:8080,http://127.0.0.1:3000,http://127.0.0.1:8000,http://127.0.0.1:8080')
-CORS_ORIGINS = os.getenv('CORS_ORIGINS', ALLOWED_ORIGINS)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[o.strip() for o in CORS_ORIGINS.split(',') if o.strip()],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# CORS middleware - Allow all origins for production deployment
+CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
+if CORS_ORIGINS == '*':
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[o.strip() for o in CORS_ORIGINS.split(',') if o.strip()],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 # Include routers
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
