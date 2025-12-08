@@ -9,12 +9,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 背景装饰球 */
+/* 背景装饰球 - Cyber主题 */
 .crystal-orb {
   position: fixed;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.15;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
   animation: float-orb 15s ease-in-out infinite;
@@ -25,7 +25,7 @@
   left: 10%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.4), transparent 70%);
+  background: radial-gradient(circle, rgba(0, 213, 213, 0.3), transparent 70%);
   animation-delay: 0s;
 }
 
@@ -34,7 +34,7 @@
   right: 10%;
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+  background: radial-gradient(circle, rgba(26, 155, 142, 0.25), transparent 70%);
   animation-delay: 3s;
 }
 
@@ -43,7 +43,7 @@
   left: 40%;
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.25), transparent 70%);
+  background: radial-gradient(circle, rgba(0, 230, 115, 0.2), transparent 70%);
   animation-delay: 6s;
 }
 
