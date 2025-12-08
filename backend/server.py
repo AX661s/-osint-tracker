@@ -1591,6 +1591,70 @@ async def filter_financial_test():
     logger.info("🧪 [Financial Filter] Test endpoint called!")
     return {"status": "ok", "message": "Filter financial test endpoint is working"}
 
+@api_router.post("/profile-picture")
+async def get_profile_picture(request: dict):
+    """
+    获取电话号码的社交媒体头像
+    
+    Args:
+        request: {"phone": "14403828826"}
+    
+    Returns:
+        社交媒体账户信息和头像
+    """
+    try:
+        phone = request.get('phone')
+        if not phone:
+            return {
+                "success": False,
+                "error": "Phone number is required",
+                "message": "请提供电话号码"
+            }
+        
+        logger.info(f"📸 [Profile Picture] Looking up phone: {phone}")
+        
+        # 调用外部API
+        api_url = "http://47.253.47.192:8090/api/profile/picture"
+        
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(
+                api_url,
+                json={"phone": phone},
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code != 200:
+                logger.error(f"❌ [Profile Picture] API error: {response.status_code}")
+                return {
+                    "success": False,
+                    "error": f"API returned {response.status_code}",
+                    "message": "查询失败"
+                }
+            
+            data = response.json()
+            logger.info(f"✅ [Profile Picture] API success")
+            
+            return {
+                "success": True,
+                "phone": phone,
+                "data": data
+            }
+            
+    except httpx.TimeoutException:
+        logger.error(f"⏱️ [Profile Picture] Timeout")
+        return {
+            "success": False,
+            "error": "Timeout",
+            "message": "查询超时，请稍后重试"
+        }
+    except Exception as e:
+        logger.error(f"❌ [Profile Picture] Error: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "查询失败"
+        }
+
 @api_router.get("/indonesia-phone-lookup")
 async def indonesia_phone_lookup(phone: str):
     """
