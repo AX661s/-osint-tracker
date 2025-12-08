@@ -231,13 +231,13 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* 水晶文本效果 */
+/* 水晶文本效果 - Cyber主题 */
 .crystal-text {
   background: linear-gradient(
     135deg,
-    rgba(147, 51, 234, 0.9),
-    rgba(59, 130, 246, 0.9),
-    rgba(236, 72, 153, 0.9)
+    rgba(0, 213, 213, 1),
+    rgba(26, 155, 142, 1),
+    rgba(0, 230, 115, 1)
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
