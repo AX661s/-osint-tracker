@@ -348,25 +348,45 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
   const paginatedUsers = searchFilter ? filteredUsers.slice(startIndex, endIndex) : filteredUsers;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95">
-      {/* Header */}
-      <div className="border-b border-border/50 bg-card/50 backdrop-blur-xl sticky top-0 z-40">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      {/* 水晶装饰球 */}
+      <div className="crystal-orb crystal-orb-1"></div>
+      <div className="crystal-orb crystal-orb-2"></div>
+      <div className="crystal-orb crystal-orb-3"></div>
+      
+      {/* Header - 玻璃态 */}
+      <div className="border-b border-cyan-500/20 sticky top-0 z-40 backdrop-blur-xl bg-slate-900/60" style={{
+        background: 'linear-gradient(135deg, rgba(14, 20, 25, 0.9) 0%, rgba(10, 22, 40, 0.85) 100%)',
+        backdropFilter: 'blur(40px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+        boxShadow: '0 8px 32px rgba(0, 213, 213, 0.12), inset 0 1px 1px rgba(0, 213, 213, 0.2)'
+      }}>
         <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <Settings className="w-8 h-8 text-primary" />
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl relative overflow-hidden" style={{
+              background: 'linear-gradient(135deg, rgba(0, 213, 213, 0.2) 0%, rgba(26, 155, 142, 0.15) 100%)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(0, 213, 213, 0.3)',
+              boxShadow: '0 4px 12px rgba(0, 213, 213, 0.2), inset 0 1px 2px rgba(0, 213, 213, 0.15)'
+            }}>
+              <Settings className="w-8 h-8 text-cyan-400" />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent drop-shadow-lg">
               管理面板
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground inline-flex items-center gap-2"><UserIcon className="w-4 h-4" /> {username}</span>
+            <span className="text-sm text-cyan-300/80 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
+              background: 'rgba(0, 213, 213, 0.1)',
+              border: '1px solid rgba(0, 213, 213, 0.2)'
+            }}>
+              <Crown className="w-4 h-4 text-cyan-400" /> {username}
+            </span>
             <Button
               variant="outline"
               size="sm"
               onClick={() => onBack()}
-              className="gap-2"
+              className="gap-2 glass-card border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400/50"
             >
               <ArrowLeft className="w-4 h-4" />
               返回
@@ -376,6 +396,11 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
               size="sm"
               onClick={handleLogoutClick}
               className="gap-2"
+              style={{
+                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.2) 100%)',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                color: '#fca5a5'
+              }}
             >
               <LogOut className="w-4 h-4" />
               登出
@@ -384,8 +409,12 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="border-b border-border/50 bg-card/30 sticky top-16 z-30">
+      {/* Navigation Tabs - 玻璃态 */}
+      <div className="border-b border-cyan-500/20 sticky top-[88px] z-30" style={{
+        background: 'linear-gradient(135deg, rgba(14, 20, 25, 0.85) 0%, rgba(10, 22, 40, 0.75) 100%)',
+        backdropFilter: 'blur(30px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(30px) saturate(180%)'
+      }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex gap-8">
             {[
