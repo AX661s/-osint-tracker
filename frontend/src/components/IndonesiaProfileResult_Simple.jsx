@@ -1945,8 +1945,8 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
             </StatsGrid>
           </div>
 
-          {/* Content Grid - 4 columns layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3">
             
             {/* Left Column: Identity & Contact */}
             <div className="lg:col-span-1 glass-card p-8 space-y-8 slide-in-right">
