@@ -2237,6 +2237,31 @@ async def get_api_usage(
         }
 
 
+# 智能标签解析
+from apis.smart_tag_parser import parse_indonesia_tags
+
+class TagParseRequest(BaseModel):
+    tags: List[Dict[str, Any]]
+
+@api_router.post("/parse-tags")
+async def parse_tags_endpoint(request: TagParseRequest):
+    """
+    智能解析印尼电话号码标签
+    """
+    try:
+        parsed_result = parse_indonesia_tags(request.tags)
+        return {
+            "success": True,
+            "data": parsed_result
+        }
+    except Exception as e:
+        logger.error(f"❌ Error parsing tags: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "Failed to parse tags"
+        }
+
 # 创建用户请求模型
 class CreateUserRequest(BaseModel):
     username: str
