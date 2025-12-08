@@ -274,16 +274,28 @@
   transform: translateY(-2px);
 }
 
-/* 社交媒体卡片 */
+/* 社交媒体卡片 - 水晶质感 */
 .social-card {
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.65) 100%
+  );
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  border-radius: 20px;
+  padding: 20px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  border: 1px solid rgba(229, 231, 235, 0.8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.03),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.02);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -292,37 +304,95 @@
 .social-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-  transition: left 0.5s ease;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(147, 197, 253, 0.15) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .social-card:hover::before {
-  left: 100%;
+  opacity: 1;
+}
+
+.social-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.social-card:hover::after {
+  left: 150%;
 }
 
 .social-card:hover {
-  border-color: rgba(102, 126, 234, 0.4);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
-  transform: translateX(4px);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 12px 48px rgba(59, 130, 246, 0.15),
+    0 4px 16px rgba(59, 130, 246, 0.08),
+    inset 0 2px 4px rgba(255, 255, 255, 1),
+    inset 0 -2px 4px rgba(59, 130, 246, 0.08);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.social-card:active {
+  transform: translateY(-2px) scale(1.01);
 }
 
 .social-avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 2px solid rgba(229, 231, 235, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
   flex-shrink: 0;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.social-avatar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .social-card:hover .social-avatar {
-  border-color: rgba(102, 126, 234, 0.6);
-  transform: scale(1.05);
+  border-color: rgba(59, 130, 246, 0.6);
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 
+    0 8px 24px rgba(59, 130, 246, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.social-card:hover .social-avatar::before {
+  opacity: 1;
 }
 
 /* 数据泄露卡片 */
