@@ -1917,6 +1917,16 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
             </div>
           </div>
 
+          {/* Statistics Overview */}
+          <div className="p-8 bg-gradient-to-br from-slate-50 to-white">
+            <StatsGrid>
+              <RiskScoreStats level={riskLevel} />
+              <DataBreachStats count={uniqueBreaches?.length || 0} />
+              <SocialAccountsStats count={uniqueAccounts?.length || 0} />
+              <EmailsStats count={sortedEmails?.length || 0} />
+            </StatsGrid>
+          </div>
+
           {/* Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3">
             
