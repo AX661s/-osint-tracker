@@ -491,7 +491,7 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
                 variant="outline"
                 onClick={loadStats}
                 disabled={isLoadingStats}
-                className="gap-2"
+                className="gap-2 glass-card border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,213,213,0.3)]"
               >
                 <RefreshCw className={`w-4 h-4 ${isLoadingStats ? 'animate-spin' : ''}`} />
                 {isLoadingStats ? '刷新中...' : '刷新数据'}
