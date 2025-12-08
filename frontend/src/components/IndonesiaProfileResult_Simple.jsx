@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowLeft, Shield, User, Phone, MapPin, Calendar, FileText, AlertTriangle, Briefcase, Database, Globe, Lock, Mail, Printer, Download, Share2, MapPinned, Star, DollarSign, Home, Users, Car } from 'lucide-react';
+import { ArrowLeft, Shield, User, Phone, MapPin, Calendar, FileText, AlertTriangle, Briefcase, Database, Globe, Lock, Mail, Printer, Download, Share2, MapPinned, Star, DollarSign, Home, Users, Car, TrendingUp, Activity, Award } from 'lucide-react';
 import ReactCountryFlag from 'react-country-flag';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import './ProfileResultStyles.css';
 
 // Mapbox Token
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoic3RlaW4xMjMiLCJhIjoiY21ocTVwam9xMGE4aTJrczd4MW9yNTYzbyJ9.d2rHs6GWcZRkgdD6FAQaMA';
