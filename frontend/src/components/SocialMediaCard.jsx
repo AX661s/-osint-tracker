@@ -1,397 +1,202 @@
 import React, { useState } from 'react';
-import { CheckCircle, AlertCircle, ExternalLink, Eye, EyeOff, Copy, Check } from 'lucide-react';
+import { Phone, Image as ImageIcon, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import './ProfileResultStyles.css';
+import './CrystalEnhancements.css';
 
-// 社交媒体平台配置
-const PLATFORM_CONFIG = {
-  'Facebook': {
-    name: 'Facebook',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg',
-    color: '#1877F2',
-    bgColor: '#1877F2/10',
-    iconBg: '#1877F2'
-  },
-  'Instagram': {
-    name: 'Instagram', 
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg',
-    color: '#E4405F',
-    bgColor: '#E4405F/10',
-    iconBg: '#E4405F'
-  },
-  'Twitter': {
-    name: 'Twitter',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitter.svg', 
-    color: '#1DA1F2',
-    bgColor: '#1DA1F2/10',
-    iconBg: '#1DA1F2'
-  },
-  'Google': {
-    name: 'Google',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg',
-    color: '#4285F4', 
-    bgColor: '#4285F4/10',
-    iconBg: '#4285F4'
-  },
-  'Zoom': {
-    name: 'Zoom',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/zoom.svg',
-    color: '#2D8CFF',
-    bgColor: '#2D8CFF/10', 
-    iconBg: '#2D8CFF'
-  },
-  'Gravatar': {
-    name: 'Gravatar',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/gravatar.svg',
-    color: '#1E8CBE',
-    bgColor: '#1E8CBE/10',
-    iconBg: '#1E8CBE'
-  },
-  'LinkedIn': {
-    name: 'LinkedIn', 
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg',
-    color: '#0A66C2',
-    bgColor: '#0A66C2/10',
-    iconBg: '#0A66C2'
-  },
-  'TikTok': {
-    name: 'TikTok',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg', 
-    color: '#000000',
-    bgColor: '#000000/10',
-    iconBg: '#000000'
-  },
-  'Snapchat': {
-    name: 'Snapchat',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/snapchat.svg',
-    color: '#FFFC00',
-    bgColor: '#FFFC00/10',
-    iconBg: '#FFFC00'
-  },
-  'YouTube': {
-    name: 'YouTube',
-    logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg',
-    color: '#FF0000',
-    bgColor: '#FF0000/10', 
-    iconBg: '#FF0000'
-  }
-};
+const SocialMediaCard = ({ phoneNumber, onLookup }) => {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [phone, setPhone] = useState(phoneNumber || '');
 
-const SocialMediaCard = ({ platform, accounts }) => {
-  const [showPasswords, setShowPasswords] = useState({});
-  const [copiedFields, setCopiedFields] = useState({});
-  
-  const config = PLATFORM_CONFIG[platform] || {
-    name: platform,
-    logo: null,
-    color: '#6B7280',
-    bgColor: '#6B7280/10',
-    iconBg: '#6B7280'
-  };
+  const handleLookup = async () => {
+    if (!phone.trim()) {
+      setError('请输入电话号码');
+      return;
+    }
 
-  const togglePassword = (accountIndex) => {
-    setShowPasswords(prev => ({
-      ...prev,
-      [accountIndex]: !prev[accountIndex]
-    }));
-  };
+    setLoading(true);
+    setError(null);
+    setData(null);
 
-  const copyToClipboard = async (text, fieldKey) => {
     try {
-      await navigator.clipboard.writeText(text);
-      setCopiedFields(prev => ({ ...prev, [fieldKey]: true }));
-      setTimeout(() => {
-        setCopiedFields(prev => ({ ...prev, [fieldKey]: false }));
-      }, 2000);
-    } catch (err) {
-      console.error('复制失败:', err);
-    }
-  };
-
-  // 格式化URL，确保有正确的协议前缀
-  const formatUrl = (url) => {
-    if (!url) return null;
-    if (url.startsWith('http://') || url.startsWith('https://')) {
-      return url;
-    }
-    return `https://${url}`;
-  };
-
-  // 生成平台特定的个人资料链接
-  const generateProfileLinks = (account, platform) => {
-    const links = [];
-    
-    // 如果有直接URL，添加它
-    if (account.url) {
-      links.push({
-        label: '登录页面',
-        url: formatUrl(account.url),
-        type: 'login'
+      const response = await fetch('/api/profile-picture', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone: phone.trim() }),
       });
-    }
 
-    // 根据平台生成额外的有用链接
-    if (account.username) {
-      switch (platform) {
-        case 'Gravatar':
-          links.push({
-            label: '个人资料',
-            url: `https://gravatar.com/${account.username}`,
-            type: 'profile'
-          });
-          break;
-        case 'Facebook':
-          links.push({
-            label: '搜索用户',
-            url: `https://www.facebook.com/search/people/?q=${encodeURIComponent(account.email || account.username)}`,
-            type: 'search'
-          });
-          break;
-        case 'Instagram':
-          if (account.username) {
-            links.push({
-              label: '个人资料',
-              url: `https://www.instagram.com/${account.username}`,
-              type: 'profile'
-            });
-          }
-          break;
-        case 'Twitter':
-          if (account.username) {
-            links.push({
-              label: '个人资料',
-              url: `https://twitter.com/${account.username}`,
-              type: 'profile'
-            });
-          }
-          break;
+      const result = await response.json();
+
+      if (result.success && result.data?.success) {
+        setData(result.data);
+        if (onLookup) {
+          onLookup(result.data);
+        }
+      } else {
+        setError(result.message || '未找到该号码的账户信息');
       }
+    } catch (err) {
+      setError('查询失败，请稍后重试');
+    } finally {
+      setLoading(false);
     }
-
-    // 如果有邮箱，添加邮箱相关链接
-    if (account.email && !account.url) {
-      switch (platform) {
-        case 'Google':
-          links.push({
-            label: 'Google账户',
-            url: 'https://accounts.google.com/',
-            type: 'service'
-          });
-          break;
-        case 'Facebook':
-          links.push({
-            label: 'Facebook搜索',
-            url: `https://www.facebook.com/search/people/?q=${encodeURIComponent(account.email)}`,
-            type: 'search'
-          });
-          break;
-      }
-    }
-
-    return links;
   };
 
-  if (!accounts || accounts.length === 0) {
-    return null;
-  }
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleLookup();
+    }
+  };
 
   return (
-    <div className="bg-card border border-border rounded-lg overflow-hidden">
-      {/* 平台头部 */}
-      <div 
-        className="p-4 flex items-center gap-3"
-        style={{ backgroundColor: config.bgColor }}
-      >
-        {config.logo ? (
-          <div 
-            className="w-10 h-10 rounded-full flex items-center justify-center"
-            style={{ backgroundColor: config.iconBg }}
-          >
-            <img 
-              src={config.logo} 
-              alt={config.name}
-              className="w-6 h-6 filter invert"
-              style={{ filter: config.name === 'Google' ? 'none' : 'invert(1)' }}
-            />
-          </div>
-        ) : (
-          <div 
-            className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
-            style={{ backgroundColor: config.iconBg }}
-          >
-            {platform.substring(0, 2).toUpperCase()}
-          </div>
-        )}
-        
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <h3 className="font-bold text-lg" style={{ color: config.color }}>
-              {config.name}
-            </h3>
-            <CheckCircle className="w-5 h-5 text-green-500" />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            发现 {accounts.length} 个账户
-          </p>
+    <div className="glass-card p-6 fade-in-up hover-lift">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="icon-container icon-container-blue">
+          <Phone className="w-5 h-5" />
         </div>
+        <h3 className="text-lg font-bold text-cyan-300">社交媒体账户</h3>
       </div>
 
-      {/* 账户详情 */}
-      <div className="p-4 space-y-3">
-        {accounts.map((account, index) => (
-          <div key={index} className="bg-muted/30 rounded-lg p-3 space-y-2">
-            {/* 邮箱 */}
-            {account.email && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">邮箱:</span>
-                  <span className="font-mono text-sm">{account.email}</span>
-                </div>
-                <button
-                  onClick={() => copyToClipboard(account.email, `email-${index}`)}
-                  className="p-1 hover:bg-muted rounded"
-                >
-                  {copiedFields[`email-${index}`] ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            )}
+      {/* 搜索输入 */}
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="输入电话号码..."
+          disabled={loading}
+          className="flex-1 px-4 py-2 rounded-lg text-sm"
+          style={{
+            background: 'rgba(14, 20, 25, 0.6)',
+            border: '1px solid rgba(0, 213, 213, 0.3)',
+            color: '#67e8f9',
+            outline: 'none',
+          }}
+          onFocus={(e) => {
+            e.target.style.borderColor = 'rgba(0, 213, 213, 0.6)';
+            e.target.style.boxShadow = '0 0 20px rgba(0, 213, 213, 0.2)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(0, 213, 213, 0.3)';
+            e.target.style.boxShadow = 'none';
+          }}
+        />
+        <button
+          onClick={handleLookup}
+          disabled={loading}
+          className="gradient-button px-6 py-2 text-sm flex items-center gap-2"
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              查询中...
+            </>
+          ) : (
+            <>
+              <ImageIcon className="w-4 h-4" />
+              查询
+            </>
+          )}
+        </button>
+      </div>
 
-            {/* 用户名 */}
-            {account.username && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">用户名:</span>
-                  <span className="font-mono text-sm">{account.username}</span>
-                </div>
-                <button
-                  onClick={() => copyToClipboard(account.username, `username-${index}`)}
-                  className="p-1 hover:bg-muted rounded"
-                >
-                  {copiedFields[`username-${index}`] ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            )}
+      {/* 加载状态 */}
+      {loading && (
+        <div className="flex items-center justify-center py-8">
+          <div className="crystal-loader"></div>
+        </div>
+      )}
 
-            {/* 密码 */}
-            {account.password && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">密码:</span>
-                  <span className="font-mono text-sm">
-                    {showPasswords[index] ? account.password : '••••••••'}
-                  </span>
-                </div>
-                <div className="flex gap-1">
-                  <button
-                    onClick={() => togglePassword(index)}
-                    className="p-1 hover:bg-muted rounded"
-                  >
-                    {showPasswords[index] ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
-                  </button>
-                  <button
-                    onClick={() => copyToClipboard(account.password, `password-${index}`)}
-                    className="p-1 hover:bg-muted rounded"
-                  >
-                    {copiedFields[`password-${index}`] ? (
-                      <Check className="w-4 h-4 text-green-500" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                  </button>
-                </div>
-              </div>
-            )}
+      {/* 错误状态 */}
+      {error && !loading && (
+        <div className="info-card-premium p-4 flex items-start gap-3" style={{
+          background: 'rgba(239, 68, 68, 0.1)',
+          borderColor: 'rgba(239, 68, 68, 0.3)'
+        }}>
+          <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <div className="font-semibold text-red-400 mb-1">查询失败</div>
+            <div className="text-sm text-gray-400">{error}</div>
+          </div>
+        </div>
+      )}
 
-            {/* 相关链接 */}
-            {(() => {
-              const links = generateProfileLinks(account, platform);
-              if (links.length === 0) return null;
-              
-              return (
-                <div className="space-y-2">
-                  <span className="text-sm text-muted-foreground">相关链接:</span>
-                  {links.map((link, linkIndex) => (
-                    <div key={linkIndex} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">
-                          {link.label}
-                        </span>
-                        <a 
-                          href={link.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline font-mono text-sm break-all"
-                        >
-                          {link.url.length > 50 ? link.url.substring(0, 50) + '...' : link.url}
-                        </a>
-                      </div>
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => copyToClipboard(link.url, `link-${index}-${linkIndex}`)}
-                          className="p-1 hover:bg-muted rounded"
-                          title="复制链接"
-                        >
-                          {copiedFields[`link-${index}-${linkIndex}`] ? (
-                            <Check className="w-4 h-4 text-green-500" />
-                          ) : (
-                            <Copy className="w-4 h-4" />
-                          )}
-                        </button>
-                        <ExternalLink className="w-4 h-4 text-muted-foreground" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              );
-            })()}
-
+      {/* 成功显示 */}
+      {data && !loading && (
+        <div className="social-card p-4 fade-in-up">
+          <div className="flex items-start gap-4">
             {/* 头像 */}
-            {account.avatar && (
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">头像:</span>
-                <img 
-                  src={account.avatar} 
-                  alt="Avatar"
-                  className="w-8 h-8 rounded-full"
+            {data.picture_url && (
+              <div className="social-avatar" style={{ width: '80px', height: '80px' }}>
+                <img
+                  src={data.picture_url}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.style.display = 'none';
+                    const fallback = e.target.parentElement.querySelector('.fallback-icon');
+                    if (fallback) fallback.style.display = 'flex';
                   }}
                 />
+                <div
+                  className="fallback-icon hidden w-full h-full items-center justify-center bg-gradient-to-br from-cyan-100 to-blue-100"
+                  style={{ display: 'none' }}
+                >
+                  <ImageIcon className="w-8 h-8 text-cyan-400/40" />
+                </div>
               </div>
             )}
 
-            {/* Facebook ID */}
-            {account.facebook_id && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Facebook ID:</span>
-                  <span className="font-mono text-sm">{account.facebook_id}</span>
+            {/* 信息 */}
+            <div className="flex-1">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-bold text-cyan-300 text-lg">{data.phone}</span>
+                    <span className="premium-badge badge-success text-xs">
+                      <CheckCircle className="w-3 h-3" /> 已找到
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-400">{data.message}</div>
                 </div>
-                <button
-                  onClick={() => copyToClipboard(account.facebook_id, `fbid-${index}`)}
-                  className="p-1 hover:bg-muted rounded"
-                >
-                  {copiedFields[`fbid-${index}`] ? (
-                    <Check className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Copy className="w-4 h-4" />
-                  )}
-                </button>
               </div>
-            )}
+
+              {/* WhatsApp标识 */}
+              <div className="flex items-center gap-2 mt-3">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
+                  background: 'rgba(0, 230, 115, 0.15)',
+                  border: '1px solid rgba(0, 230, 115, 0.3)'
+                }}>
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                  <span className="text-xs font-semibold text-emerald-400">WhatsApp</span>
+                </div>
+                {data.picture_url && (
+                  <a
+                    href={data.picture_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-cyan-400 hover:text-cyan-300 underline"
+                  >
+                    查看原图
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {/* 初始提示 */}
+      {!data && !loading && !error && (
+        <div className="text-center py-8 text-gray-400 text-sm">
+          <ImageIcon className="w-12 h-12 mx-auto mb-3 opacity-30" />
+          <p>输入电话号码查询社交媒体账户</p>
+        </div>
+      )}
     </div>
   );
 };
