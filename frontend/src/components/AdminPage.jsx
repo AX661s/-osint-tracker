@@ -428,13 +428,21 @@ export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) 
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-2 border-b-2 font-medium transition-all duration-300 ${
+                className={`py-4 px-3 border-b-2 font-semibold transition-all duration-300 relative group ${
                   activeTab === tab.id
-                    ? 'border-primary text-primary'
-                    : 'border-transparent text-muted-foreground hover:text-foreground'
+                    ? 'border-cyan-400 text-cyan-300'
+                    : 'border-transparent text-gray-400 hover:text-cyan-300'
                 }`}
+                style={activeTab === tab.id ? {
+                  textShadow: '0 0 10px rgba(0, 213, 213, 0.5)'
+                } : {}}
               >
-                <span className="inline-flex items-center gap-2"><tab.icon className="w-4 h-4" /> {tab.label}</span>
+                <span className="inline-flex items-center gap-2 relative z-10">
+                  <tab.icon className="w-4 h-4" /> {tab.label}
+                </span>
+                {activeTab === tab.id && (
+                  <div className="absolute inset-0 bg-cyan-500/10 blur-xl"></div>
+                )}
               </button>
             ))}
           </div>
