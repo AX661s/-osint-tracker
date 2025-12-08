@@ -8,6 +8,8 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   AreaChart, Area
 } from 'recharts';
+import './ProfileResultStyles.css';
+import './CrystalEnhancements.css';
 
 export const AdminPage = ({ onBack, onLogout, username, sessionToken, userId }) => {
   const API_BASE_URL = (process.env.REACT_APP_API_URL || (process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:8000/api'));
