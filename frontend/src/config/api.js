@@ -69,7 +69,9 @@ export const ENDPOINTS = {
   
   // Telegram
   telegram: {
-    username: (username) => `/telegram/username/${username}`
+    username: (username) => `/telegram/username/${username}`,
+    aggressive: '/social/telegram/aggressive',
+    aggressiveSingle: (phone) => `/social/telegram/aggressive/${phone}`
   },
   
   // Google
