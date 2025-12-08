@@ -718,7 +718,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* 图标容器 - 水晶质感 */
+/* 图标容器 - 深色水晶质感 */
 .icon-container {
   width: 52px;
   height: 52px;
@@ -728,10 +728,10 @@
   justify-content: center;
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 213, 213, 0.25);
   box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.05),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    0 4px 12px rgba(0, 213, 213, 0.1),
+    inset 0 1px 2px rgba(0, 213, 213, 0.15);
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
@@ -743,7 +743,7 @@
   inset: 0;
   background: radial-gradient(
     circle at 30% 30%,
-    rgba(255, 255, 255, 0.4) 0%,
+    rgba(0, 213, 213, 0.3) 0%,
     transparent 60%
   );
   opacity: 0;
@@ -757,48 +757,48 @@
 .icon-container-blue {
   background: linear-gradient(
     135deg,
-    rgba(59, 130, 246, 0.15) 0%,
-    rgba(37, 99, 235, 0.1) 100%
+    rgba(0, 213, 213, 0.2) 0%,
+    rgba(26, 155, 142, 0.15) 100%
   );
-  color: #2563eb;
-  border-top: 1px solid rgba(147, 197, 253, 0.6);
+  color: #67e8f9;
+  border-top: 1px solid rgba(0, 213, 213, 0.4);
 }
 
 .icon-container-purple {
   background: linear-gradient(
     135deg,
-    rgba(139, 92, 246, 0.15) 0%,
-    rgba(124, 58, 237, 0.1) 100%
+    rgba(26, 155, 142, 0.2) 0%,
+    rgba(0, 230, 115, 0.15) 100%
   );
-  color: #7c3aed;
-  border-top: 1px solid rgba(196, 181, 253, 0.6);
+  color: #6ee7b7;
+  border-top: 1px solid rgba(26, 155, 142, 0.4);
 }
 
 .icon-container-green {
   background: linear-gradient(
     135deg,
-    rgba(16, 185, 129, 0.15) 0%,
-    rgba(5, 150, 105, 0.1) 100%
+    rgba(0, 230, 115, 0.2) 0%,
+    rgba(16, 185, 129, 0.15) 100%
   );
-  color: #059669;
-  border-top: 1px solid rgba(110, 231, 183, 0.6);
+  color: #6ee7b7;
+  border-top: 1px solid rgba(0, 230, 115, 0.4);
 }
 
 .icon-container-red {
   background: linear-gradient(
     135deg,
-    rgba(239, 68, 68, 0.15) 0%,
-    rgba(220, 38, 38, 0.1) 100%
+    rgba(239, 68, 68, 0.2) 0%,
+    rgba(220, 38, 38, 0.15) 100%
   );
-  color: #dc2626;
-  border-top: 1px solid rgba(252, 165, 165, 0.6);
+  color: #fca5a5;
+  border-top: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .icon-container:hover {
   transform: scale(1.15) rotate(8deg);
   box-shadow: 
-    0 8px 24px rgba(0, 0, 0, 0.1),
-    inset 0 1px 3px rgba(255, 255, 255, 0.8);
+    0 8px 24px rgba(0, 213, 213, 0.2),
+    inset 0 1px 3px rgba(0, 213, 213, 0.3);
 }
 
 /* 响应式优化 */
