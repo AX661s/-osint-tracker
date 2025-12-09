@@ -183,13 +183,6 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
                   </a>
                 )}
               </div>
-
-              {/* 头像路径 */}
-              {data.picture_path && (
-                <div className="mt-2 text-xs text-gray-500">
-                  本地路径: {data.picture_path}
-                </div>
-              )}
             </div>
           </div>
         </div>
