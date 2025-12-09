@@ -119,14 +119,16 @@ const LinkedInCard = ({ phoneNumber, autoSearch = false }) => {
           </div>
 
           {/* 职业信息 */}
-          <div className="grid grid-cols-2 gap-3 text-xs">
-            {/* 位置 */}
-            {data.Location && (
+          <div className="space-y-2 text-xs">
+            {/* 位置和区域 */}
+            {(data.Location || data.Region || data.Locality) && (
               <div className="flex items-start gap-2">
                 <MapPin className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-0.5" />
-                <div>
-                  <div className="text-muted-foreground">位置</div>
-                  <div className="text-foreground">{data.Location}</div>
+                <div className="flex-1">
+                  <div className="text-muted-foreground mb-0.5">位置</div>
+                  <div className="text-foreground">
+                    {[data.Locality, data.Location, data.Region].filter(Boolean).join(', ')}
+                  </div>
                 </div>
               </div>
             )}
@@ -135,8 +137,8 @@ const LinkedInCard = ({ phoneNumber, autoSearch = false }) => {
             {data.Industry && (
               <div className="flex items-start gap-2">
                 <Briefcase className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-0.5" />
-                <div>
-                  <div className="text-muted-foreground">行业</div>
+                <div className="flex-1">
+                  <div className="text-muted-foreground mb-0.5">行业</div>
                   <div className="text-foreground capitalize">{data.Industry}</div>
                 </div>
               </div>
@@ -146,23 +148,47 @@ const LinkedInCard = ({ phoneNumber, autoSearch = false }) => {
             {data.JobStartDate && (
               <div className="flex items-start gap-2">
                 <Award className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-0.5" />
-                <div>
-                  <div className="text-muted-foreground">入职时间</div>
+                <div className="flex-1">
+                  <div className="text-muted-foreground mb-0.5">入职时间</div>
                   <div className="text-foreground">{data.JobStartDate}</div>
                 </div>
               </div>
             )}
 
-            {/* 性别 */}
-            {data.Gender && (
-              <div className="flex items-start gap-2">
-                <div className="w-3 h-3 flex-shrink-0 mt-0.5"></div>
+            {/* 其他信息行 */}
+            <div className="grid grid-cols-2 gap-2">
+              {/* 性别 */}
+              {data.Gender && (
                 <div>
-                  <div className="text-muted-foreground">性别</div>
+                  <div className="text-muted-foreground mb-0.5">性别</div>
                   <div className="text-foreground capitalize">{data.Gender}</div>
                 </div>
-              </div>
-            )}
+              )}
+              
+              {/* 国家 */}
+              {data.Country && (
+                <div>
+                  <div className="text-muted-foreground mb-0.5">国家</div>
+                  <div className="text-foreground capitalize">{data.Country}</div>
+                </div>
+              )}
+              
+              {/* LinkedIn ID */}
+              {data.LinkedinID && (
+                <div>
+                  <div className="text-muted-foreground mb-0.5">LinkedIn ID</div>
+                  <div className="text-foreground">{data.LinkedinID}</div>
+                </div>
+              )}
+              
+              {/* 登录次数 */}
+              {data.LoginCount && (
+                <div>
+                  <div className="text-muted-foreground mb-0.5">活跃度</div>
+                  <div className="text-foreground">{data.LoginCount} 次登录</div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* 个人简介 */}
