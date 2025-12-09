@@ -100,9 +100,9 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
       {data && !loading && (
         <div className="social-card p-4 fade-in-up">
           <div className="flex items-start gap-4">
-            {/* 头像 */}
-            {data.picture_url && (
-              <div className="social-avatar" style={{ width: '80px', height: '80px' }}>
+            {/* 头像（始终显示，有图就显示图，没图显示占位符）*/}
+            <div className="social-avatar" style={{ width: '80px', height: '80px' }}>
+              {data.picture_url ? (
                 <img
                   src={data.picture_url}
                   alt="WhatsApp Profile"
@@ -113,14 +113,14 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
                     if (fallback) fallback.style.display = 'flex';
                   }}
                 />
-                <div
-                  className="fallback-icon hidden w-full h-full items-center justify-center bg-gradient-to-br from-green-500/20 to-emerald-500/20"
-                  style={{ display: 'none' }}
-                >
-                  <ImageIcon className="w-8 h-8 text-green-400/60" />
-                </div>
+              ) : null}
+              <div
+                className={`fallback-icon w-full h-full items-center justify-center bg-gradient-to-br from-green-500/20 to-emerald-500/20 ${data.picture_url ? 'hidden' : 'flex'}`}
+                style={{ display: data.picture_url ? 'none' : 'flex' }}
+              >
+                <Phone className="w-8 h-8 text-green-400/60" />
               </div>
-            )}
+            </div>
 
             {/* 信息 */}
             <div className="flex-1">
