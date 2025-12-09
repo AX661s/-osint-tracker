@@ -70,8 +70,9 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
     }
   };
 
-  // 如果没有数据且不在加载中，不显示卡片（除非有错误）
-  if (!loading && !data && !error) {
+  // 如果没有数据且不在加载中，不显示卡片
+  // 注意：不显示错误状态（账号不存在时直接隐藏）
+  if (!loading && !data) {
     return null;
   }
 
