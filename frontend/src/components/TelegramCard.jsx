@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Send, User, CheckCircle, XCircle, Loader2, Crown } from 'lucide-react';
+import { ExternalLink, User, Loader2 } from 'lucide-react';
 import { apiClient } from '../utils/secureApiClient';
 import { ENDPOINTS } from '../config/api';
-import './ProfileResultStyles.css';
-import './CrystalEnhancements.css';
 
 /**
  * Telegram 账号卡片组件
