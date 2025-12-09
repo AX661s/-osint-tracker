@@ -36,14 +36,16 @@ const GetContactCard = ({ phoneNumber, autoSearch = false }) => {
 
       console.log(`📊 [GetContactCard] 响应:`, result);
 
-      if (result.success && result.data?.step1_getcontact?.status) {
-        const gcData = result.data.step1_getcontact.data;
+      if (result.success && result.data?.step1_getcontact) {
+        const gcStep = result.data.step1_getcontact;
+        const gcData = gcStep.data || {};
         setData({
           ...gcData,
           primary_name: result.data.primary_name,
-          gpt_analysis: result.data.step2_gpt_analysis
+          gpt_analysis: result.data.step2_gpt_analysis,
+          status: gcStep.status
         });
-        console.log(`✅ [GetContactCard] 找到GetContact数据`);
+        console.log(`✅ [GetContactCard] 找到GetContact数据:`, gcData);
       } else {
         setData(null);
         console.log(`ℹ️ [GetContactCard] 未找到GetContact数据`);
