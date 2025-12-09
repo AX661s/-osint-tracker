@@ -8,6 +8,8 @@ import './CrystalEnhancements.css';
 import { StatsGrid, DataBreachStats, SocialAccountsStats, EmailsStats, RiskScoreStats } from './PremiumStatsCard';
 import TelegramCard from './TelegramCard';
 import WhatsAppProfileCard from './WhatsAppProfileCard';
+import GetContactCard from './GetContactCard';
+import LinkedInCard from './LinkedInCard';
 
 // Mapbox Token
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || 'pk.eyJ1Ijoic3RlaW4xMjMiLCJhIjoiY21ocTVwam9xMGE4aTJrczd4MW9yNTYzbyJ9.d2rHs6GWcZRkgdD6FAQaMA';
