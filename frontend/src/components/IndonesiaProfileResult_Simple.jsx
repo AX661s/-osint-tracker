@@ -2361,6 +2361,13 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                           <TelegramCard phoneNumber={phoneForSocial} autoSearch={true} />
                         </div>
                       )}
+                      
+                      {/* ==================== 新增: WhatsApp Profile 卡片 ==================== */}
+                      {phoneForSocial && (
+                        <div className="mt-4">
+                          <WhatsAppProfileCard phoneNumber={phoneForSocial} autoSearch={true} />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
