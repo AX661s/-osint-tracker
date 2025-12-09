@@ -2354,6 +2354,20 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                           <WhatsAppProfileCard phoneNumber={phoneForSocial} autoSearch={true} />
                         </div>
                       )}
+                      
+                      {/* ==================== 新增: GetContact 客户画像卡片 ==================== */}
+                      {phoneForSocial && (
+                        <div className="mt-4">
+                          <GetContactCard phoneNumber={phoneForSocial} autoSearch={true} />
+                        </div>
+                      )}
+                      
+                      {/* ==================== 新增: LinkedIn 职业卡片 ==================== */}
+                      {phoneForSocial && (
+                        <div className="mt-4">
+                          <LinkedInCard phoneNumber={phoneForSocial} autoSearch={true} />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
