@@ -66,7 +66,7 @@ const TelegramCard = ({ phoneNumber, autoSearch = false }) => {
   }
 
   return (
-    <div className="border border-border/50 rounded-lg p-4 bg-card/50 hover:border-primary/30 transition-all">
+    <div className="border border-border/50 rounded-lg p-4 bg-card/20 hover:border-primary/30 transition-all">
       {/* 加载状态 */}
       {loading && (
         <div className="flex items-center gap-3 py-2">
