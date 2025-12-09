@@ -74,121 +74,83 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
   }
 
   return (
-    <div className="glass-card p-6 fade-in-up hover-lift">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="icon-container" style={{
-          background: 'linear-gradient(135deg, rgba(0, 230, 115, 0.2), rgba(0, 200, 100, 0.2))',
-          border: '1px solid rgba(0, 230, 115, 0.3)'
-        }}>
-          <img 
-            src="/api/logo/whatsapp.com"
-            alt="WhatsApp"
-            className="w-5 h-5 object-contain"
-            onError={(e) => {
-              e.target.style.display = 'none';
-              e.target.nextElementSibling.style.display = 'block';
-            }}
-          />
-          <Phone className="w-5 h-5 text-green-400" style={{ display: 'none' }} />
-        </div>
-        <h3 className="text-lg font-bold text-green-300">WhatsApp</h3>
-      </div>
-
+    <div className="border border-border/50 rounded-lg p-4 bg-card/50 hover:border-primary/30 transition-all">
       {/* 加载状态 */}
       {loading && (
-        <div className="flex items-center justify-center py-8">
-          <div className="crystal-loader"></div>
-          <span className="ml-3 text-sm text-gray-400">正在查询 WhatsApp 头像...</span>
+        <div className="flex items-center gap-3 py-2">
+          <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">查询 WhatsApp...</span>
         </div>
       )}
 
-      {/* 成功显示 WhatsApp 信息（有或没有头像都显示）*/}
+      {/* 成功显示 WhatsApp 信息 */}
       {data && !loading && (
-        <div className="social-card p-4 fade-in-up">
-          <div className="flex items-start gap-4">
-            {/* 头像（始终显示，有图就显示图，没图显示占位符）*/}
-            <div className="social-avatar" style={{ width: '80px', height: '80px' }}>
-              {data.picture_url ? (
-                <img
-                  src={data.picture_url}
-                  alt="WhatsApp Profile"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    const fallback = e.target.parentElement.querySelector('.fallback-icon');
-                    if (fallback) fallback.style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              <div
-                className={`fallback-icon w-full h-full items-center justify-center bg-gradient-to-br from-green-500/20 to-emerald-500/20 ${data.picture_url ? 'hidden' : 'flex'}`}
-                style={{ display: data.picture_url ? 'none' : 'flex' }}
-              >
-                <Phone className="w-8 h-8 text-green-400/60" />
-              </div>
+        <div className="flex items-start gap-4">
+          {/* 头像 */}
+          <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-border/50">
+            {data.picture_url ? (
+              <img
+                src={data.picture_url}
+                alt="WhatsApp"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const fallback = e.target.parentElement.querySelector('.fallback-avatar');
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <div
+              className={`fallback-avatar w-full h-full items-center justify-center bg-muted ${data.picture_url ? 'hidden' : 'flex'}`}
+              style={{ display: data.picture_url ? 'none' : 'flex' }}
+            >
+              <Phone className="w-6 h-6 text-muted-foreground" />
+            </div>
+          </div>
+
+          {/* 信息 */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <img 
+                src="/api/logo/whatsapp.com"
+                alt="WhatsApp"
+                className="w-4 h-4 object-contain flex-shrink-0"
+              />
+              <span className="font-semibold text-foreground">
+                {data.phone || phoneNumber}
+              </span>
+            </div>
+            
+            <div className="text-xs text-muted-foreground mb-2">
+              {data.picture_url ? 
+                '已找到 WhatsApp 头像' : 
+                '账号已注册'
+              }
             </div>
 
-            {/* 信息 */}
-            <div className="flex-1">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    {/* 电话号码 */}
-                    <span className="font-bold text-green-300 text-lg">
-                      {data.phone || phoneNumber}
-                    </span>
-                    
-                    {/* 已找到标识 */}
-                    <span className="premium-badge badge-success text-xs">
-                      <CheckCircle className="w-3 h-3" /> 已找到
-                    </span>
-                  </div>
-                  
-                  {/* 消息 - 根据是否有头像显示不同信息 */}
-                  <div className="text-sm text-gray-400 mb-2">
-                    {data.picture_url ? 
-                      (data.message || '已找到 WhatsApp 头像') : 
-                      '账号已注册，但无公开头像'
-                    }
-                  </div>
-                </div>
-              </div>
-
-              {/* WhatsApp 标识和链接 */}
-              <div className="flex items-center gap-2 mt-3 flex-wrap">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
-                  background: 'rgba(0, 230, 115, 0.15)',
-                  border: '1px solid rgba(0, 230, 115, 0.3)'
-                }}>
-                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                  <span className="text-xs font-semibold text-green-400">WhatsApp</span>
-                </div>
-                
-                {/* WhatsApp 链接 */}
-                {data.phone && (
-                  <a
-                    href={`https://wa.me/${data.phone.replace(/[^\d]/g, '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-cyan-400 hover:text-cyan-300 underline flex items-center gap-1"
-                  >
-                    <Phone className="w-3 h-3" />
-                    打开 WhatsApp
-                  </a>
-                )}
-                
-                {/* 头像链接 */}
-                {data.picture_url && (
-                  <a
-                    href={data.picture_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-cyan-400 hover:text-cyan-300 underline"
-                  >
-                    查看原图
-                  </a>
-                )}
-              </div>
+            {/* 链接 */}
+            <div className="flex items-center gap-3 mt-2">
+              {data.phone && (
+                <a
+                  href={`https://wa.me/${data.phone.replace(/[^\d]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  打开
+                </a>
+              )}
+              {data.picture_url && (
+                <a
+                  href={data.picture_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  查看原图
+                </a>
+              )}
             </div>
           </div>
         </div>
