@@ -102,7 +102,8 @@ export const ENDPOINTS = {
   proxy: {
     logo: (domain) => `/logo/${domain}`,
     avatar: '/avatar',
-    filterFinancial: '/filter-financial'
+    filterFinancial: '/filter-financial',
+    profilePicture: '/profile-picture'
   },
   
   // 健康检查
