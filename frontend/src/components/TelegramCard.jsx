@@ -74,7 +74,16 @@ const TelegramCard = ({ phoneNumber, autoSearch = false }) => {
           background: 'linear-gradient(135deg, rgba(37, 168, 224, 0.2), rgba(33, 150, 243, 0.2))',
           border: '1px solid rgba(37, 168, 224, 0.3)'
         }}>
-          <Send className="w-5 h-5 text-blue-400" />
+          <img 
+            src="/api/logo/telegram.org"
+            alt="Telegram"
+            className="w-5 h-5 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextElementSibling.style.display = 'block';
+            }}
+          />
+          <Send className="w-5 h-5 text-blue-400" style={{ display: 'none' }} />
         </div>
         <h3 className="text-lg font-bold text-blue-300">Telegram</h3>
       </div>
