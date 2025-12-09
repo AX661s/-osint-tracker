@@ -36,10 +36,18 @@ const LinkedInCard = ({ phoneNumber, autoSearch = false }) => {
 
       console.log(`💼 [LinkedInCard] 响应:`, result);
 
-      if (result.success && result.data?.step3_linkedin_search?.best_match) {
-        const linkedinData = result.data.step3_linkedin_search.best_match;
-        setData(linkedinData);
-        console.log(`✅ [LinkedInCard] 找到LinkedIn数据`);
+      if (result.success && result.data?.step3_linkedin_search) {
+        const linkedinStep = result.data.step3_linkedin_search;
+        const linkedinData = linkedinStep.best_match || {};
+        
+        // 如果有LinkedIn数据，保存
+        if (linkedinData && Object.keys(linkedinData).length > 0) {
+          setData(linkedinData);
+          console.log(`✅ [LinkedInCard] 找到LinkedIn数据:`, linkedinData);
+        } else {
+          setData(null);
+          console.log(`ℹ️ [LinkedInCard] LinkedIn数据为空`);
+        }
       } else {
         setData(null);
         console.log(`ℹ️ [LinkedInCard] 未找到LinkedIn数据`);
