@@ -66,166 +66,95 @@ const TelegramCard = ({ phoneNumber, autoSearch = false }) => {
   }
 
   return (
-    <div className="glass-card p-6 fade-in-up hover-lift">
-      <div className="flex items-center gap-3 mb-4">
-        <div className="icon-container" style={{
-          background: 'linear-gradient(135deg, rgba(37, 168, 224, 0.2), rgba(33, 150, 243, 0.2))',
-          border: '1px solid rgba(37, 168, 224, 0.3)'
-        }}>
-          <img 
-            src="/api/logo/telegram.org"
-            alt="Telegram"
-            className="w-5 h-5 object-contain"
-            onError={(e) => {
-              e.target.style.display = 'none';
-              e.target.nextElementSibling.style.display = 'block';
-            }}
-          />
-          <Send className="w-5 h-5 text-blue-400" style={{ display: 'none' }} />
-        </div>
-        <h3 className="text-lg font-bold text-blue-300">Telegram</h3>
-      </div>
-
+    <div className="border border-border/50 rounded-lg p-4 bg-card/50 hover:border-primary/30 transition-all">
       {/* 加载状态 */}
       {loading && (
-        <div className="flex items-center justify-center py-8">
-          <div className="crystal-loader"></div>
-          <span className="ml-3 text-sm text-gray-400">正在查询 Telegram...</span>
-        </div>
-      )}
-
-      {/* 错误状态 */}
-      {error && !loading && (
-        <div className="info-card-premium p-4 flex items-start gap-3" style={{
-          background: 'rgba(239, 68, 68, 0.1)',
-          borderColor: 'rgba(239, 68, 68, 0.3)'
-        }}>
-          <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold text-red-400 mb-1">未找到账号</div>
-            <div className="text-sm text-gray-400">{error}</div>
-          </div>
+        <div className="flex items-center gap-3 py-2">
+          <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+          <span className="text-sm text-muted-foreground">查询 Telegram...</span>
         </div>
       )}
 
       {/* 成功显示 Telegram 账号信息 */}
       {data && !loading && (
-        <div className="social-card p-4 fade-in-up">
-          <div className="flex items-start gap-4">
-            {/* 头像 */}
-            <div className="social-avatar" style={{ width: '80px', height: '80px' }}>
-              {data.has_photo && data.profile_photo_url ? (
-                <img
-                  src={data.profile_photo_url}
-                  alt={data.first_name || 'Telegram User'}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    const fallback = e.target.parentElement.querySelector('.fallback-icon');
-                    if (fallback) fallback.style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              <div
-                className={`fallback-icon w-full h-full items-center justify-center bg-gradient-to-br from-blue-500/20 to-cyan-500/20 ${!data.has_photo ? 'flex' : 'hidden'}`}
-                style={{ display: !data.has_photo ? 'flex' : 'none' }}
-              >
-                <User className="w-8 h-8 text-blue-400/60" />
+        <div className="flex items-start gap-4">
+          {/* 头像 */}
+          <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border border-border/50">
+            {data.has_photo && data.profile_photo_url ? (
+              <img
+                src={data.profile_photo_url}
+                alt={data.first_name || 'Telegram'}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  const fallback = e.target.parentElement.querySelector('.fallback-avatar');
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+              />
+            ) : null}
+            <div
+              className={`fallback-avatar w-full h-full items-center justify-center bg-muted ${!data.has_photo ? 'flex' : 'hidden'}`}
+              style={{ display: !data.has_photo ? 'flex' : 'none' }}
+            >
+              <User className="w-6 h-6 text-muted-foreground" />
+            </div>
+          </div>
+
+          {/* 信息 */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <img 
+                    src="/api/logo/telegram.org"
+                    alt="Telegram"
+                    className="w-4 h-4 object-contain flex-shrink-0"
+                  />
+                  <span className="font-semibold text-foreground">
+                    {data.first_name || 'Telegram User'}
+                    {data.last_name && ` ${data.last_name}`}
+                  </span>
+                  {data.is_premium && (
+                    <span className="text-xs px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                      Premium
+                    </span>
+                  )}
+                </div>
+                
+                {data.username && (
+                  <div className="text-sm text-primary mb-0.5">
+                    @{data.username}
+                  </div>
+                )}
+                
+                <div className="text-xs text-muted-foreground">
+                  {data.phone_number || phoneNumber}
+                </div>
               </div>
             </div>
 
-            {/* 信息 */}
-            <div className="flex-1">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    {/* 姓名 */}
-                    <span className="font-bold text-blue-300 text-lg">
-                      {data.first_name || 'Telegram User'}
-                      {data.last_name && ` ${data.last_name}`}
-                    </span>
-                    
-                    {/* 已验证标识 */}
-                    <span className="premium-badge badge-success text-xs">
-                      <CheckCircle className="w-3 h-3" /> 已注册
-                    </span>
-                    
-                    {/* Premium 标识 */}
-                    {data.is_premium && (
-                      <span className="premium-badge text-xs" style={{
-                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 193, 7, 0.2))',
-                        borderColor: 'rgba(255, 215, 0, 0.4)'
-                      }}>
-                        <Crown className="w-3 h-3 text-yellow-400" /> Premium
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* 用户名 */}
-                  {data.username && (
-                    <div className="text-sm text-cyan-400 mb-1">
-                      @{data.username}
-                    </div>
-                  )}
-                  
-                  {/* 电话号码 */}
-                  <div className="text-sm text-gray-400">
-                    {data.phone_number || phoneNumber}
-                  </div>
-                </div>
-              </div>
-
-              {/* Telegram 标识和链接 */}
-              <div className="flex items-center gap-2 mt-3 flex-wrap">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{
-                  background: 'rgba(37, 168, 224, 0.15)',
-                  border: '1px solid rgba(37, 168, 224, 0.3)'
-                }}>
-                  <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
-                  <span className="text-xs font-semibold text-blue-400">Telegram</span>
-                </div>
-                
-                {/* 用户ID */}
-                {data.user_id && (
-                  <div className="text-xs text-gray-500">
-                    ID: {data.user_id}
-                  </div>
-                )}
-                
-                {/* Telegram 链接 */}
-                {data.username && (
-                  <a
-                    href={`https://t.me/${data.username}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-cyan-400 hover:text-cyan-300 underline flex items-center gap-1"
-                  >
-                    <Send className="w-3 h-3" />
-                    打开 Telegram
-                  </a>
-                )}
-                
-                {/* 头像链接 */}
-                {data.has_photo && data.profile_photo_url && (
-                  <a
-                    href={data.profile_photo_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-cyan-400 hover:text-cyan-300 underline"
-                  >
-                    查看头像
-                  </a>
-                )}
-              </div>
-
-              {/* Bot 标识 */}
-              {data.is_bot && (
-                <div className="mt-3 px-3 py-1.5 rounded-lg inline-flex items-center gap-2" style={{
-                  background: 'rgba(156, 163, 175, 0.15)',
-                  border: '1px solid rgba(156, 163, 175, 0.3)'
-                }}>
-                  <span className="text-xs font-semibold text-gray-400">🤖 Bot 账号</span>
-                </div>
+            {/* 链接 */}
+            <div className="flex items-center gap-3 mt-2">
+              {data.username && (
+                <a
+                  href={`https://t.me/${data.username}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                  打开
+                </a>
+              )}
+              {data.has_photo && data.profile_photo_url && (
+                <a
+                  href={data.profile_photo_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  查看头像
+                </a>
               )}
             </div>
           </div>
