@@ -2834,6 +2834,20 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                 )}
               </section>
 
+              {/* ==================== GetContact 客户画像 ==================== */}
+              {phoneForSocial && (
+                <section>
+                  <GetContactCard phoneNumber={phoneForSocial} autoSearch={true} />
+                </section>
+              )}
+
+              {/* ==================== LinkedIn 职业信息 ==================== */}
+              {phoneForSocial && (
+                <section>
+                  <LinkedInCard phoneNumber={phoneForSocial} autoSearch={true} />
+                </section>
+              )}
+
               {/* Google Maps Location Section - Map View Center */}
               {(() => {
                 console.log('🗺️ Checking Google Maps display conditions:');
