@@ -1476,6 +1476,34 @@ async def telegram_aggressive_check_single(phone: str):
         }
 
 
+@api_router.get("/analyze-contact/{phone}")
+async def analyze_contact_endpoint(phone: str):
+    """
+    综合分析电话号码 - GetContact + LinkedIn
+    
+    Args:
+        phone: 电话号码（不带+号，例如：6281218005636）
+        
+    Returns:
+        综合分析数据，包含：
+        - GetContact客户画像和标签
+        - LinkedIn职业信息
+    """
+    try:
+        from apis.analyze_contact import analyze_contact
+        
+        logger.info(f"🔍 [Analyze Contact] 综合查询: {phone}")
+        result = await analyze_contact(phone, timeout=30)
+        return result
+    except Exception as e:
+        logger.error(f"❌ [Analyze Contact] 错误: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "source": "analyze_contact"
+        }
+
+
 @api_router.get("/social/twitter")
 async def twitter_user_lookup(username: str):
     """
