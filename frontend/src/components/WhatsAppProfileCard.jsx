@@ -96,21 +96,7 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
         </div>
       )}
 
-      {/* 错误状态 */}
-      {error && !loading && (
-        <div className="info-card-premium p-4 flex items-start gap-3" style={{
-          background: 'rgba(239, 68, 68, 0.1)',
-          borderColor: 'rgba(239, 68, 68, 0.3)'
-        }}>
-          <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-          <div>
-            <div className="font-semibold text-red-400 mb-1">未找到头像</div>
-            <div className="text-sm text-gray-400">{error}</div>
-          </div>
-        </div>
-      )}
-
-      {/* 成功显示 WhatsApp 头像信息 */}
+      {/* 成功显示 WhatsApp 信息（有或没有头像都显示）*/}
       {data && !loading && (
         <div className="social-card p-4 fade-in-up">
           <div className="flex items-start gap-4">
