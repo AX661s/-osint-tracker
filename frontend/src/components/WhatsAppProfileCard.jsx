@@ -47,12 +47,20 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
 
       console.log(`📸 [WhatsAppProfileCard] 响应:`, result);
 
-      if (result.success && result.data?.success && result.data?.picture_url) {
+      // 检查是否成功获取数据
+      if (result.success && result.data?.success) {
+        // 账号存在，保存数据（即使没有头像也显示）
         setData(result.data);
-        console.log(`✅ [WhatsAppProfileCard] 找到 WhatsApp 头像:`, result.data);
+        console.log(`✅ [WhatsAppProfileCard] 找到 WhatsApp 账号:`, result.data);
+      } else if (result.data?.success === false) {
+        // 账号不存在，不显示卡片（不设置error，直接返回null）
+        console.log(`ℹ️ [WhatsAppProfileCard] 号码未注册 WhatsApp，不显示卡片`);
+        setData(null);
+        setError(null);
       } else {
-        setError(result.data?.message || result.message || '未找到该号码的头像');
-        console.log(`ℹ️ [WhatsAppProfileCard] 未找到头像`);
+        // 其他错误情况
+        setError(result.data?.message || result.message || '查询失败');
+        console.log(`❌ [WhatsAppProfileCard] 查询失败`);
       }
     } catch (err) {
       console.error(`❌ [WhatsAppProfileCard] 查询错误:`, err);
