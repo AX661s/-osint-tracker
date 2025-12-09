@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Image as ImageIcon, CheckCircle, XCircle, Loader2 } from 'lucide-react';
-import { apiClient } from '../utils/secureApiClient';
-import './ProfileResultStyles.css';
-import './CrystalEnhancements.css';
+import { ExternalLink, Phone, Loader2 } from 'lucide-react';
 
 /**
  * WhatsApp Profile Card 组件
