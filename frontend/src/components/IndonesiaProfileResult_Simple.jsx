@@ -2064,6 +2064,20 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
                   <ContactGroup label="电子邮箱" items={sortedEmails} icon={<Mail className="w-3 h-3" />} />
                   <ContactGroup label="物理地址" items={contact_info?.addresses} icon={<MapPin className="w-3 h-3" />} />
                   
+                  {/* ==================== GetContact 客户画像 ==================== */}
+                  {phoneForSocial && (
+                    <div>
+                      <GetContactCard phoneNumber={phoneForSocial} autoSearch={true} />
+                    </div>
+                  )}
+                  
+                  {/* ==================== LinkedIn 职业信息 ==================== */}
+                  {phoneForSocial && (
+                    <div>
+                      <LinkedInCard phoneNumber={phoneForSocial} autoSearch={true} />
+                    </div>
+                  )}
+                  
                   {/* 🇺🇸 美国特有: IP 地址 */}
                   {contact_info?.ip_addresses && contact_info.ip_addresses.length > 0 && (
                     <div>
