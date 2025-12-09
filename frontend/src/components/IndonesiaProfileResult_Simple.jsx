@@ -6,7 +6,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import './ProfileResultStyles.css';
 import './CrystalEnhancements.css';
 import { StatsGrid, DataBreachStats, SocialAccountsStats, EmailsStats, RiskScoreStats } from './PremiumStatsCard';
-import GetContactWidget from './GetContactWidget';
 import TelegramCard from './TelegramCard';
 import WhatsAppProfileCard from './WhatsAppProfileCard';
 import GetContactCard from './GetContactCard';
