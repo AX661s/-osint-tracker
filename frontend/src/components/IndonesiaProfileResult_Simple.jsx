@@ -3167,10 +3167,6 @@ export default function IndonesiaProfileResult({ data, query, onBack }) {
               )}
 
               {/* 🔥 GetContact数据 Section */}
-              <section>
-                <GetContactWidget phoneNumber={query} />
-              </section>
-
               {/* 🔥 新增: 账户活动时间线 Section */}
               {profile.timeline?.events && profile.timeline.events.length > 0 && (
                 <section>
