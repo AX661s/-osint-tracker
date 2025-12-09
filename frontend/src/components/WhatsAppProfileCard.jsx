@@ -83,7 +83,16 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
           background: 'linear-gradient(135deg, rgba(0, 230, 115, 0.2), rgba(0, 200, 100, 0.2))',
           border: '1px solid rgba(0, 230, 115, 0.3)'
         }}>
-          <Phone className="w-5 h-5 text-green-400" />
+          <img 
+            src="/api/logo/whatsapp.com"
+            alt="WhatsApp"
+            className="w-5 h-5 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.nextElementSibling.style.display = 'block';
+            }}
+          />
+          <Phone className="w-5 h-5 text-green-400" style={{ display: 'none' }} />
         </div>
         <h3 className="text-lg font-bold text-green-300">WhatsApp</h3>
       </div>
