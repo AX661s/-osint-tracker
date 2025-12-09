@@ -138,12 +138,13 @@ const WhatsAppProfileCard = ({ phoneNumber, autoSearch = false }) => {
                     </span>
                   </div>
                   
-                  {/* 消息 */}
-                  {data.message && (
-                    <div className="text-sm text-gray-400 mb-2">
-                      {data.message}
-                    </div>
-                  )}
+                  {/* 消息 - 根据是否有头像显示不同信息 */}
+                  <div className="text-sm text-gray-400 mb-2">
+                    {data.picture_url ? 
+                      (data.message || '已找到 WhatsApp 头像') : 
+                      '账号已注册，但无公开头像'
+                    }
+                  </div>
                 </div>
               </div>
 
