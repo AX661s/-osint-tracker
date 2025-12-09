@@ -26,7 +26,7 @@ const LinkedInCard = ({ phoneNumber, autoSearch = false }) => {
     setError(null);
     setData(null);
 
-    try:
+    try {
       const cleanPhone = phoneNumber.replace(/[^\d]/g, '');
       
       console.log(`🔍 [LinkedInCard] 查询: ${cleanPhone}`);
